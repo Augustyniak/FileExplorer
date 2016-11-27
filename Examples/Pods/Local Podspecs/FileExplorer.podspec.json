@@ -1,0 +1,26 @@
+{
+  "name": "FileExplorer",
+  "version": "1.0.0",
+  "summary": "RATreeView provide you a great support to display the tree structures on iOS.",
+  "homepage": "https://github.com/Augustyniak/KeyCommands",
+  "screenshots": "https://raw.github.com/Augustyniak/KeyCommands/master/Screens/animation.gif",
+  "license": {
+    "type": "MIT",
+    "file": "LICENCE.md"
+  },
+  "authors": {
+    "Rafal Augustyniak": "rafalaugustyniak@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Augustyniak/KeyCommands.git",
+    "tag": "v1.0.0"
+  },
+  "platforms": {
+    "ios": "9.0",
+    "tvos": "9.0"
+  },
+  "source_files": "FileExplorer/*.{swift,h}",
+  "resources": "FileExplorer/Resources/*.*",
+  "public_header_files": "FileExplorer/FileExplorer.h",
+  "requires_arc": true
+}
