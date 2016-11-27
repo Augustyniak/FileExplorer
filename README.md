@@ -1,6 +1,6 @@
 
 
-FileExplorer (iOS 10.0+) 
+FileExplorer (iOS 10.0+)
 ==============
 
 👷 Project created and maintained by [Rafał Augustyniak](http://augustyniak.me). You can find me on twitter ([@RaAugustyniak](https://twitter.com/RaAugustyniak)).
@@ -21,12 +21,12 @@ Introduction
 | ![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) |-->
 
 
-Images             |  Audio Files | Videos | Directories  | PDFs | Preview 
+Images             |  Audio Files | Videos | Directories  | PDFs | Preview
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) | ![iOS](Resources/Preview.gif) 
+![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) | ![iOS](Resources/Preview.gif)
 
 
-FileExplorer is a class designed to provide an easy and pleasant way to work with local file system on iOS devices. It works as file browser with the additional possibility of deleting specified files/directories and possibility to choose files/directories. 
+FileExplorer is a control designed to provide an easy way to browse and interact with local file system on iOS devices. It works as file browser with additional possibility of deleting specified files and/or directories and possibility to choose files and/or directories.
 
          | Main Features
 ---------|---------------
@@ -71,7 +71,7 @@ Installation
 ### Source files
 
 1. Downloaded the latest version of the library using [link](https://github.com/Augustyniak/FileExplorer/archive/master.zip).
-2. Copy content of the downloaded (and unzipped) zip file into your project by dragging it into Project's navigator files structure. 
+2. Copy content of the downloaded (and unzipped) zip file into your project by dragging it into Project's navigator files structure.
 
 
 Basic Usage
@@ -84,18 +84,18 @@ Check out the demo for example usage of library. Make sure you read the [FileExp
 ### Basics
 
 1. Add following import in file of your project when you want to use RATreeView:
-       
+
    ```Swift
    import FileExplorer
-   ``` 
- 
+   ```
+
 2. Simplest way to present File Explorer:
 
    ```Swift
 	let fileExplorer = FileExplorerViewController()
    self.present(fileExplorer, animated: true, completion: nil)
    ```
-   
+
 Customizations
 -----------------
 
@@ -108,47 +108,47 @@ FileExplorer allows for a lot of customizations. Some of them are discussed belo
 
 Specify which files **should** be visible to the user:
 
-```Swift 
+```Swift
 let fileExplorer = FileExplorerViewController()
-   
+
 //Only files with `txt` and `jpg` extensions will be visible
 fileExplorer.fileFilters = [Filter.extension("txt"), Filter.extension("jpg")]
 
 self.present(fileExplorer, animated: true, completion: nil)
 ```
-   
+
 Specify which files **should not** be visible to the user:
 
-```Swift 
+```Swift
 let fileExplorer = FileExplorerViewController()
-   
+
 //Everything but directories will be visible
 fileExplorer.ignoredFileFilters = [Filter.type(.directory)]
 
 self.present(fileExplorer, animated: true, completion: nil)
 ```
-   
+
 Combining both types of filters:
 
-```Swift 
+```Swift
 let fileExplorer = FileExplorerViewController()
-   
-//Only files with `.txt` that were modified prior to `referenceDate` will be visible
+
+//Only files with `.txt` extension that were modified prior to `referenceDate` will be visible
 fileExplorer.fileFilters = [Filter.extension("txt")]
 fileExplorer.ignoredFileFilters = [Filter.Filter.modificationDatePastOrEqualTo(referenceDate)]
 
 self.present(fileExplorer, animated: true, completion: nil)
 ```
- 
+
 ### Using FileExplorer as a Way to Choose Files and/or Directories
 
 Configure `FileExplorer` so that user is allowed to choose files and/or directories:
 
 ```Swift
 let fileExplorer = FileExplorerViewController()
-fileExplorer.canChooseFiles = true
-fileExplorer.canChooseDirectories = false
-fileExplorer.allowsMultipleSelection = true
+fileExplorer.canChooseFiles = true //specify whether user is allowed to choose files
+fileExplorer.canChooseDirectories = false //specify whether user is allowed to choose directories
+fileExplorer.allowsMultipleSelection = true //specify whether user is allowed to choose multiple files and/or directories
 fileExplorer.delegate = self
 
 self.present(fileExplorer, animated: true, completion: nil)
@@ -161,29 +161,29 @@ public func fileExplorerViewController(_ controller: FileExplorerViewController,
 	//Your code here
 }
 ```
-       
+
 ### Deciding Whether User Can Delete Files and/or Directories
 
 Configure `FileExplorer` so that user is allowed to remove files and/or directories:
 
 ```Swift
 let fileExplorer = FileExplorerViewController()
-fileExplorer.canRemoveFiles = true
-fileExplorer.canRemoveDirectories = false
+fileExplorer.canRemoveFiles = true //specify whether user is allowed to remove files
+fileExplorer.canRemoveDirectories = false //specify whether user is allowed to remove directories
 
 self.present(fileExplorer, animated: true, completion: nil)
 ```
-   
+
 Adding Support for Additional File Types
 -----------------
 
 
 `FileExplorer` was built with expansibility in mind. It allows its users to register their own file types and provide thumbnails and preview view controllers for them. The whole process is simple and straightforward.
 
-It start with the implementation of class that conforms to `FileSpecificationProvider` protocol.
+It starts with the implementation of class that conforms to `FileSpecificationProvider` protocol.
 
    ```Swift
-class CustomFileSpecificationprovider: FileSpecificationProvider {
+class CustomFileSpecificationProvider: FileSpecificationProvider {
    public class var extensions: [String] {
       return ["foo"]
    }
@@ -200,23 +200,23 @@ class CustomFileSpecificationprovider: FileSpecificationProvider {
 }
    ```
 
-After that, created class must be registered in `FileExplorerViewController`:
+After that, created class must be registered in an instance of `FileExplorerViewController` class:
 
 ```Swift
 let fileExplorer = FileExplorerViewController()
-fileExplorer.fileSpecificationProviders = [CustomFileSpecificationprovider.self]
+fileExplorer.fileSpecificationProviders = [CustomFileSpecificationProvider.self]
 
 self.present(fileExplorer, animated: true, completion: nil)
 ```
 
-That's all!
-   
-         
+That's all! From now on instance of `FileExplorerViewController` uses `CustomFileSpecificationProvider` to provide thumbnails and view controllers for files with `foo` extension.
+
+
 Documentation
 -----------------
 
 Documentation is available on [CocoaPods](http://cocoadocs.org/docsets/FileExplorer/1.0.0).
-  
+
 Author
 -----------------
 
