@@ -51,8 +51,6 @@ final class ItemCellSnapshotTest: FBSnapshotTestCase {
         collectionView.dataSource = dataSource
         collectionView.registerCell(ofClass: ItemCell.self)
         
-        recordMode = true
-        
         cell = collectionView.dequeueReusableCell(ofClass: ItemCell.self, for: IndexPath(item: 0, section: 0)) as ItemCell //ItemCell(frame: CGRect(x: 0, y: 0, width: 375, height: 64))
         cell.title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a tortor mattis, malesuada risus a, ultrices justo. Duis non accumsan dui. Curabitur semper nunc eget erat venenatis vulputate."
         cell.subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et pharetra metus, non finibus elit. Suspendisse potenti. Maecenas at nunc in arcu sollicitudin dignissim."
