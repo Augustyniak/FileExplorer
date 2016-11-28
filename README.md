@@ -16,17 +16,10 @@ Introduction
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Augustyniak/FileExplorer/blob/master/LICENCE.md)
 
 
-<!--| Images  | Audio |  Videos | Directories | PDFs |
-|:-------------:|:-------------:|:-------------:|:-------------:|
-| ![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) |-->
-
-
-Images             |  Audio Files | Videos | Directories  | PDFs | Preview
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) | ![iOS](Resources/Preview.gif)
-
+![iOS](Resources/General.gif)
 
 FileExplorer is a control designed to provide an easy way to browse and interact with local file system on iOS devices. It works as file browser with additional possibility of deleting specified files and/or directories and possibility to choose files and/or directories.
+
 
          | Main Features
 ---------|---------------
@@ -37,6 +30,11 @@ FileExplorer is a control designed to provide an easy way to browse and interact
 &#127968; | Out of the box support for image, audio, video and pdf files
 &#128640; | Extendable API; Possibility to add support for any file type
 &#128038; | Written in Swift
+
+
+Images             |  Audio Files | Videos | Directories  | PDFs | Preview
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) | ![iOS](Resources/Preview.gif)
 
 Table of Contents:
 -----------------
