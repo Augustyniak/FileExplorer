@@ -47,7 +47,7 @@ final class ItemCellSnapshotTest: FBSnapshotTestCase {
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 375, height: 64)
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 375, height: 100), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect.iPhone6Bounds, collectionViewLayout: layout)
         collectionView.dataSource = dataSource
         collectionView.registerCell(ofClass: ItemCell.self)
         
