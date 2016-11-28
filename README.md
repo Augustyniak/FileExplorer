@@ -16,6 +16,8 @@ Introduction
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Augustyniak/FileExplorer/blob/master/LICENCE.md)
 
 
+![iOS](Resources/General.gif)
+
 <!--| Images  | Audio |  Videos | Directories | PDFs |
 |:-------------:|:-------------:|:-------------:|:-------------:|
 | ![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) |-->
