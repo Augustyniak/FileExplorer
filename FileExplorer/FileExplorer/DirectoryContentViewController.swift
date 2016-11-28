@@ -220,6 +220,7 @@ extension DirectoryContentViewController {
             let header = collectionView.dequeueReusableHeader(ofClass: CollectionViewHeader.self, for: indexPath) as CollectionViewHeader
             header.sortModeChangeAction = viewModel.sortModeChangeAction
             header.sortMode = viewModel.sortMode
+            header.layoutIfNeeded()
             return header
         } else if kind == UICollectionElementKindSectionFooter {
             return collectionView.dequeueReusableFooter(ofClass: CollectionViewFooter.self, for: indexPath) as CollectionViewFooter
