@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: ./../FileExplorer.podspec.json
 
 SPEC CHECKSUMS:
-  FileExplorer: 8bc3a98a8f37210b236b5f106ad8fabe4cfba5b9
+  FileExplorer: 5214d41ace85bf877cbbd767c2642fd051fc9cae
 
 PODFILE CHECKSUM: f09ca52ba3e673398c656e083a29129ede27a7d7
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
