@@ -33,6 +33,7 @@ final class FileViewControllerSnapshotTests: FBSnapshotTestCase {
 
     override func setUp() {
         super.setUp()
+        
         directoryURL = FileManager.createCacheDirectory()
     }
 

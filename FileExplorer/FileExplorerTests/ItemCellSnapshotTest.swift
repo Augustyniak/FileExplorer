@@ -81,5 +81,4 @@ final class ItemCellSnapshotTest: FBSnapshotTestCase {
         cell.isSelected = true
         FBSnapshotVerifyView(cell)
     }
-    
 }
