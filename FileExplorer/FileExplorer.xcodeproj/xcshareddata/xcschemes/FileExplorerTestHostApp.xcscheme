@@ -71,6 +71,18 @@
             ReferencedContainer = "container:FileExplorer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "IMAGE_DIFF_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/FailureDiffs"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
