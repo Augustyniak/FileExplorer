@@ -18,17 +18,11 @@ Introduction
 
 ![iOS](Resources/General.gif)
 
-<!--| Images  | Audio |  Videos | Directories | PDFs |
-|:-------------:|:-------------:|:-------------:|:-------------:|
-| ![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) |-->
-
+FileExplorer is a control designed to provide an easy way to browse and interact with local file system on iOS devices. It works as file browser with additional possibility of deleting specified files and/or directories and possibility to choose files and/or directories.
 
 Images             |  Audio Files | Videos | Directories  | PDFs | Preview
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![iOS](Resources/Images.gif) | ![iOS](Resources/Audio.gif) | ![iOS](Resources/Videos.gif) | ![iOS](Resources/Directories.gif) | ![iOS](Resources/PDFs.gif) | ![iOS](Resources/Preview.gif)
-
-
-FileExplorer is a control designed to provide an easy way to browse and interact with local file system on iOS devices. It works as file browser with additional possibility of deleting specified files and/or directories and possibility to choose files and/or directories.
 
          | Main Features
 ---------|---------------
