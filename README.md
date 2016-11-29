@@ -10,7 +10,6 @@ Introduction
 -----------------
 
 [![Twitter: @raaugustyniak](https://img.shields.io/badge/contact-@raaugustyniak-blue.svg?style=flat)](https://twitter.com/raaugustyniak)
-[![Build Status](https://img.shields.io/travis/Augustyniak/FileExplorer/master.svg?style=flat)](https://travis-ci.org/Augustyniak/FileExplorer)
 [![CocoaPods](https://img.shields.io/cocoapods/v/FileExplorer.svg?style=flat)](https://github.com/Augustyniak/FileExplorer)
 [![Platform](https://img.shields.io/cocoapods/p/FileExplorer.svg?style=flat)](http://cocoadocs.org/docsets/FileExplorer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Augustyniak/FileExplorer/blob/master/LICENCE.md)
