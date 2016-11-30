@@ -47,6 +47,7 @@ Table of Contents:
 ](#deciding-whether-user-can-delete-files-andor-directories)
 * [Adding Support for Additional File Types
 ](#adding-support-for-additional-file-types)
+* [Documentation](#documentation)
 
 
 Installation
