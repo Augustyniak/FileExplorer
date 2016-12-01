@@ -26,7 +26,6 @@
 @testable import FileExplorer
 import FBSnapshotTestCase
 
-
 final class MockCollectionViewDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -54,11 +53,6 @@ final class ItemCellSnapshotTest: FBSnapshotTestCase {
         cell = collectionView.dequeueReusableCell(ofClass: ItemCell.self, for: IndexPath(item: 0, section: 0)) as ItemCell //ItemCell(frame: CGRect(x: 0, y: 0, width: 375, height: 64))
         cell.title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent a tortor mattis, malesuada risus a, ultrices justo. Duis non accumsan dui. Curabitur semper nunc eget erat venenatis vulputate."
         cell.subtitle = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et pharetra metus, non finibus elit. Suspendisse potenti. Maecenas at nunc in arcu sollicitudin dignissim."
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        
     }
     
     func testDetailAccessoryButton() {
