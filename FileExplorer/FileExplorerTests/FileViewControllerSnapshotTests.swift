@@ -1,5 +1,5 @@
 //
-//  FileViewControllerTests.swift
+//  FileViewControllerSnapshotTests.swift
 //  FileExplorer
 //
 //  Created by Rafal Augustyniak on 27/11/2016.
