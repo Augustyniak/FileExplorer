@@ -65,18 +65,18 @@ public final class FileExplorerViewController: UIViewController {
 
     /// Filters that determine which files are displayed by file explorer view controller.
     ///
-    /// Results of multiple filters are combined and displayed by file explorer view controller. All files are displayed if there are no filters.
+    /// Results of multiple filters are combined and displayed by file explorer view controller. All files are displayed if `fileFilters` array is empty.
     public var fileFilters = [Filter]()
 
     /// Filters that determine which files aren't displayed by file explorer view controller.
     ///
-    /// Results of multiple filters are combined and all of them aren't displayed by file explorer view controller. All files passing file filters are displayed if there are no ignored file filters.
+    /// Results of multiple filters are combined and all of them aren't displayed by file explorer view controller. All files passing filters from `fileFilters` property are displayed if there are no filters in `ignoredFileFilters` array.
     public var ignoredFileFilters = [Filter]()
 
     /// The file explorer's delegate object.
     public weak var delegate: FileExplorerViewControllerDelegate?
 
-    /// Items specification providers that are used by file explorer view controller to present thumbnails and view controllers of files of specified type.
+    /// File specification providers that are used by file explorer view controller to present thumbnails and view controllers of files of specified type.
     ///
     /// FileExplorer combines these providers with the default ones and uses resulting set of providers to present thumbnails and view controllers of files of specified type. Providers provided by the user have higher priority than the default ones.
     public var fileSpecificationProviders: [FileSpecificationProvider.Type]
