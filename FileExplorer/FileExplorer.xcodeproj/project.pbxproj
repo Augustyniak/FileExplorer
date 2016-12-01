@@ -56,14 +56,14 @@
 		067F03FB1DE0A8340080802D /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067F03FA1DE0A8340080802D /* FilterTests.swift */; };
 		06A2083F1D85871A00E51C13 /* FileExplorer.h in Headers */ = {isa = PBXBuildFile; fileRef = 06A208311D85871A00E51C13 /* FileExplorer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06A208511D8591B400E51C13 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A208501D8591B400E51C13 /* Result.swift */; };
-		06C632271DDB17DD00B2B742 /* FileViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C632261DDB17DD00B2B742 /* FileViewControllerTests.swift */; };
+		06C632271DDB17DD00B2B742 /* FileViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C632261DDB17DD00B2B742 /* FileViewControllerSnapshotTests.swift */; };
 		06C632291DDB1C9A00B2B742 /* LoadedItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C632281DDB1C9A00B2B742 /* LoadedItem+Extension.swift */; };
 		06CB0D4F1DBD32C7008321AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB0D4E1DBD32C7008321AD /* AppDelegate.swift */; };
 		06CB0D511DBD32C7008321AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB0D501DBD32C7008321AD /* ViewController.swift */; };
 		06CB0D541DBD32C7008321AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06CB0D521DBD32C7008321AD /* Main.storyboard */; };
 		06CB0D561DBD32C7008321AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06CB0D551DBD32C7008321AD /* Assets.xcassets */; };
 		06CB0D591DBD32C7008321AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06CB0D571DBD32C7008321AD /* LaunchScreen.storyboard */; };
-		06CB0D6F1DBD38B6008321AD /* ItemCellSnapshotTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTest.swift */; };
+		06CB0D6F1DBD38B6008321AD /* ItemCellSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTests.swift */; };
 		06CB0D7F1DBD5AF8008321AD /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CB0D7E1DBD5AF8008321AD /* UIImage+Extension.swift */; };
 		06D71CD91DCC886A0081BD35 /* CheckmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D71CD81DCC886A0081BD35 /* CheckmarkButton.swift */; };
 		06D71CDB1DCC8C040081BD35 /* UIBezierPath+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D71CDA1DCC8C040081BD35 /* UIBezierPath+Extension.swift */; };
@@ -141,7 +141,7 @@
 		06A208311D85871A00E51C13 /* FileExplorer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileExplorer.h; sourceTree = "<group>"; };
 		06A208481D85874600E51C13 /* FileExplorerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerViewController.swift; sourceTree = "<group>"; };
 		06A208501D8591B400E51C13 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		06C632261DDB17DD00B2B742 /* FileViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewControllerTests.swift; sourceTree = "<group>"; };
+		06C632261DDB17DD00B2B742 /* FileViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		06C632281DDB1C9A00B2B742 /* LoadedItem+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoadedItem+Extension.swift"; sourceTree = "<group>"; };
 		06CB0D4C1DBD32C7008321AD /* FileExplorerTestHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileExplorerTestHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06CB0D4E1DBD32C7008321AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 		06CB0D551DBD32C7008321AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		06CB0D581DBD32C7008321AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06CB0D5A1DBD32C7008321AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCellSnapshotTest.swift; sourceTree = "<group>"; };
+		06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCellSnapshotTests.swift; sourceTree = "<group>"; };
 		06CB0D7E1DBD5AF8008321AD /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		06D71CD81DCC886A0081BD35 /* CheckmarkButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckmarkButton.swift; sourceTree = "<group>"; };
 		06D71CDA1DCC8C040081BD35 /* UIBezierPath+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBezierPath+Extension.swift"; sourceTree = "<group>"; };
@@ -215,11 +215,11 @@
 			children = (
 				063C9CD71DD60DD400F96F43 /* Helpers */,
 				063C9CD61DD60DCA00F96F43 /* Resources */,
-				06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTest.swift */,
+				06CB0D6E1DBD38B6008321AD /* ItemCellSnapshotTests.swift */,
 				0634CA081DD3D41600A00CF9 /* DirectoryContentViewModelTests.swift */,
 				063C9CA91DD5E2C000F96F43 /* ItemTests.swift */,
 				063C9CDC1DD7299200F96F43 /* LocalStorageFileServiceTests.swift */,
-				06C632261DDB17DD00B2B742 /* FileViewControllerTests.swift */,
+				06C632261DDB17DD00B2B742 /* FileViewControllerSnapshotTests.swift */,
 				067F03FA1DE0A8340080802D /* FilterTests.swift */,
 				0649A8461DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift */,
 			);
@@ -585,9 +585,9 @@
 				0634CA091DD3D41600A00CF9 /* DirectoryContentViewModelTests.swift in Sources */,
 				067F03FB1DE0A8340080802D /* FilterTests.swift in Sources */,
 				064D91FC1DDB620600E43C30 /* Date+Extension.swift in Sources */,
-				06C632271DDB17DD00B2B742 /* FileViewControllerTests.swift in Sources */,
+				06C632271DDB17DD00B2B742 /* FileViewControllerSnapshotTests.swift in Sources */,
 				063C9CAC1DD6035D00F96F43 /* Item+Extensions.swift in Sources */,
-				06CB0D6F1DBD38B6008321AD /* ItemCellSnapshotTest.swift in Sources */,
+				06CB0D6F1DBD38B6008321AD /* ItemCellSnapshotTests.swift in Sources */,
 				063C9CDD1DD7299200F96F43 /* LocalStorageFileServiceTests.swift in Sources */,
 				063C9CD91DD611D200F96F43 /* IndexPath+Extension.swift in Sources */,
 				063C9CDF1DD733B800F96F43 /* FileManager+Extension.swift in Sources */,
