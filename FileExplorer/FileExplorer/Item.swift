@@ -25,6 +25,11 @@
 
 import Foundation
 
+
+/// Item types that are used as input to filters.
+///
+/// - directory: Item type matching all items that are directories.
+/// - file: Item type matching all items that are files.
 public enum ItemType {
     case directory
     case file
