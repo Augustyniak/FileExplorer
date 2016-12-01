@@ -61,7 +61,7 @@ Installation
 1. Add additional entry to your Podfile.
 
   ```ruby
-  pod "FileExplorer", "~> 1.0.1"
+  pod "FileExplorer", "~> 1.0.2"
   ```
 
 2. Install Pod(s) running `pod install` command.
@@ -77,7 +77,7 @@ Basic Usage
 -----------------
 
 
-Check out the demo for example usage of library. Make sure you read the [FileExplorer documentation on Cocoa Docs](http://cocoadocs.org/docsets/FileExplorer/1.0.1).
+Check out the demo for example usage of library. Make sure you read the [FileExplorer documentation on Cocoa Docs](http://cocoadocs.org/docsets/FileExplorer/1.0.2).
 
 
 ### Basics
@@ -214,7 +214,7 @@ That's all! From now on instance of `FileExplorerViewController` uses `CustomFil
 Documentation
 -----------------
 
-Documentation is available on [CocoaPods](http://cocoadocs.org/docsets/FileExplorer/1.0.1).
+Documentation is available on [CocoaPods](http://cocoadocs.org/docsets/FileExplorer/1.0.2).
 
 Author
 -----------------
