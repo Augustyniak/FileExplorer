@@ -26,7 +26,10 @@
 import Foundation
 
 public extension URL {
+    /// URL of document directory using user's home directory as saerch path domain.
     static let documentDirectory: URL = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!)
+    
+    /// URL of cache directory using user's home directory as saerch path domain.
     static let cacheDirectory: URL = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!)
 }
 
