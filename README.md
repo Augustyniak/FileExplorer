@@ -13,6 +13,7 @@ Introduction
 [![CocoaPods](https://img.shields.io/cocoapods/v/FileExplorer.svg?style=flat)](https://github.com/Augustyniak/FileExplorer)
 [![Platform](https://img.shields.io/cocoapods/p/FileExplorer.svg?style=flat)](http://cocoadocs.org/docsets/FileExplorer)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Augustyniak/FileExplorer/blob/master/LICENCE.md)
+[![Swift Version](https://img.shields.io/badge/Swift-3.0-orange.svg)]()
 
 
 ![iOS](Resources/General.gif)
