@@ -82,7 +82,7 @@ final class FileSpecifications {
     }
 }
 
-public final class DefaultFileSpecificationProvider: FileSpecificationProvider {
+final class DefaultFileSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
         return [String]()
     }
@@ -98,6 +98,7 @@ public final class DefaultFileSpecificationProvider: FileSpecificationProvider {
     }
 }
 
+/// Class describing video file type. It's capable of generating thumbnails for video files and provides view controller which allows for playback of video files.
 public final class VideoSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
         return ["mp4", "avi"]
@@ -115,6 +116,7 @@ public final class VideoSpecificationProvider: FileSpecificationProvider {
     }
 }
 
+/// Class describing audio file type. It provides generic thumbnail for audio files and a view controller which allows for playback of audio files.
 public final class AudioSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
         return ["mp3", "wav"]
@@ -132,6 +134,7 @@ public final class AudioSpecificationProvider: FileSpecificationProvider {
     }
 }
 
+/// Class describing image file type. It's capable of generating thumbnails for image files and provides preview view controller for image files.
 public final class ImageSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
         return ["png", "jpg", "jpeg"]
@@ -148,6 +151,7 @@ public final class ImageSpecificationProvider: FileSpecificationProvider {
     }
 }
 
+/// Class describing PDF file type. It's capable of generating thumbnails for PDF files and provides preview view controller for PDF files.
 public final class PDFSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
         return ["pdf"]
