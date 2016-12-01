@@ -57,7 +57,7 @@ private extension FileSpecificationProvider {
     }
 }
 
-public final class FileSpecifications {
+final class FileSpecifications {
     let providers: [FileSpecificationProvider.Type]
     private let fallbackProvider: FileSpecificationProvider.Type
 
