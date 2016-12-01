@@ -84,7 +84,7 @@ struct Item<T> {
 }
 
 extension Item: Equatable {
-    public static func ==(lhs: Item, rhs: Item) -> Bool {
+    internal static func ==(lhs: Item, rhs: Item) -> Bool {
         return lhs.url == rhs.url
     }
 }
