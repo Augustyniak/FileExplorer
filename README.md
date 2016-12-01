@@ -41,7 +41,7 @@ Table of Contents:
 
 * [Installation](installation)
 * [Basic Usage](#basic-usage)
-* [Customization](#customizations)
+* [Customizations](#customizations)
 	* [Deciding Which Files and/or Directories Should Be Visible](#deciding-which-files-andor-directories-should-be-visible)
 	* [Using FileExplorer as a Way to Choose Files and/or Directories](#using-fileexplorer-as-a-way-to-choose-files-andor-directories)
 	* [Deciding Whether User Can Delete Files and/or Directories
