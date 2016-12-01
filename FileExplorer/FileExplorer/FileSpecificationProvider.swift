@@ -92,9 +92,7 @@ final class DefaultFileSpecificationProvider: FileSpecificationProvider {
     }
 
     public class func viewControllerForItem(at url: URL, data: Data?, attributes: FileAttributes) -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = UIColor.red
-        return viewController
+        return UknownFileTypeViewController(fileName: url.lastPathComponent)
     }
 }
 

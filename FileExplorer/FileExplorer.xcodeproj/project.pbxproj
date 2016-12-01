@@ -43,6 +43,8 @@
 		063C9CEB1DD7697200F96F43 /* ImageAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 063C9CE71DD7697200F96F43 /* ImageAssets.xcassets */; };
 		063C9CEC1DD7697200F96F43 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 063C9CE81DD7697200F96F43 /* Info.plist */; };
 		063C9CFD1DD77E3200F96F43 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C9CFC1DD77E3200F96F43 /* Double+Extension.swift */; };
+		0649A8451DF03BF900D2B0BC /* UknownFileTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0649A8441DF03BF900D2B0BC /* UknownFileTypeViewController.swift */; };
+		0649A8471DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0649A8461DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift */; };
 		064D91F61DDB206F00E43C30 /* ImageAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D91F51DDB206F00E43C30 /* ImageAssets.swift */; };
 		064D91F81DDB48E300E43C30 /* UISearchBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D91F71DDB48E300E43C30 /* UISearchBar+Extension.swift */; };
 		064D91FA1DDB4D4600E43C30 /* DirectoryContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064D91F91DDB4D4600E43C30 /* DirectoryContentViewController.swift */; };
@@ -124,6 +126,8 @@
 		063C9CE71DD7697200F96F43 /* ImageAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImageAssets.xcassets; path = Resources/ImageAssets.xcassets; sourceTree = "<group>"; };
 		063C9CE81DD7697200F96F43 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		063C9CFC1DD77E3200F96F43 /* Double+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		0649A8441DF03BF900D2B0BC /* UknownFileTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UknownFileTypeViewController.swift; sourceTree = "<group>"; };
+		0649A8461DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UknownFileTypeViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
 		064D91F51DDB206F00E43C30 /* ImageAssets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAssets.swift; sourceTree = "<group>"; };
 		064D91F71DDB48E300E43C30 /* UISearchBar+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Extension.swift"; sourceTree = "<group>"; };
 		064D91F91DDB4D4600E43C30 /* DirectoryContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectoryContentViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 				063C9CDC1DD7299200F96F43 /* LocalStorageFileServiceTests.swift */,
 				06C632261DDB17DD00B2B742 /* FileViewControllerTests.swift */,
 				067F03FA1DE0A8340080802D /* FilterTests.swift */,
+				0649A8461DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift */,
 			);
 			path = FileExplorerTests;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 				067F03F61DDF2ED70080802D /* FileSpecificationProvider.swift */,
 				067F03F81DDFA29E0080802D /* Configuration.swift */,
 				063C08231DE31CEF00DA18D8 /* ErrorViewController.swift */,
+				0649A8441DF03BF900D2B0BC /* UknownFileTypeViewController.swift */,
 			);
 			path = FileExplorer;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0649A8471DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift in Sources */,
 				0634CA091DD3D41600A00CF9 /* DirectoryContentViewModelTests.swift in Sources */,
 				067F03FB1DE0A8340080802D /* FilterTests.swift in Sources */,
 				064D91FC1DDB620600E43C30 /* Date+Extension.swift in Sources */,
@@ -625,6 +632,7 @@
 				066C9FA61DCA87BF00250B31 /* UICollectionView+Extension.swift in Sources */,
 				0634CA071DD3D3F500A00CF9 /* UIToolbar+Extension.swift in Sources */,
 				0634DD9F1DBD24050053C454 /* Array+Extension.swift in Sources */,
+				0649A8451DF03BF900D2B0BC /* UknownFileTypeViewController.swift in Sources */,
 				064D91FE1DDB70C600E43C30 /* ActionsViewController.swift in Sources */,
 				0634DDAB1DBD24050053C454 /* Item.swift in Sources */,
 				064D91F81DDB48E300E43C30 /* UISearchBar+Extension.swift in Sources */,
