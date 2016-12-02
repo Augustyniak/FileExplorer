@@ -44,6 +44,8 @@ final class MockedDirectoryContentViewModelDelegate: DirectoryContentViewModelDe
 }
 
 final class MockedFileService: FileService {
+    var isDeletionInProgress: Bool = false
+    
     func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ()) {
 
     }

@@ -84,7 +84,7 @@ final class FileViewController: UIViewController {
         stackView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
         stackView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
 
-        setNavigationItemTitleRecursively(viewModel.title)
+        activeNavigationItemTitle = viewModel.title
 
         view.setNeedsLayout()
         view.layoutIfNeeded()

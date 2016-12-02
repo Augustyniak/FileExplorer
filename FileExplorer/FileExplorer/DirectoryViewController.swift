@@ -102,6 +102,8 @@ final class DirectoryViewController: UIViewController {
         
         setUpSearchBarController()
         addContentChildViewController(directoryContentViewController, insets: UIEdgeInsets(top: searchController.searchBar.bounds.height, left: 0.0, bottom: 0.0, right: 0.0))
+        navigationItem.rightBarButtonItem = directoryContentViewController.navigationItem.rightBarButtonItem
+        navigationItem.title = directoryContentViewController.navigationItem.title
         view.sendSubview(toBack: directoryContentViewController.view)
         setUpLeftBarButtonItem()
     }

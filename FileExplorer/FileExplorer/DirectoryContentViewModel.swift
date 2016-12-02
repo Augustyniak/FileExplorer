@@ -56,6 +56,10 @@ final class DirectoryContentViewModel {
         }
     }
     
+    var isUserInteractionEnabled: Bool {
+        return !fileService.isDeletionInProgress
+    }
+    
     var title: String {
         get {
             return url.lastPathComponent
@@ -73,6 +77,10 @@ final class DirectoryContentViewModel {
     var isEditActionHidden: Bool {
         let actionsConfiguration = configuration.actionsConfiguration
         return !actionsConfiguration.canChooseDirectories && !actionsConfiguration.canChooseFiles && !actionsConfiguration.canRemoveDirectories && !actionsConfiguration.canRemoveFiles
+    }
+    
+    var isEditActionEnabled: Bool {
+        return !isEditActionHidden && !fileService.isDeletionInProgress
     }
     
     var editActionTitle: String {
@@ -105,9 +113,9 @@ final class DirectoryContentViewModel {
     }
     
     var isDeleteActionEnabled: Bool {
-        guard selectedItems.count > 0 else { return false }
+        guard selectedItems.count > 0 && !isDeleteActionHidden else { return false }
 
-        return selectedItems.reduce(true) { enabled, item in
+        return !fileService.isDeletionInProgress && !fileService.isDeletionInProgress && selectedItems.reduce(true) { enabled, item in
             if item.type == .file && !configuration.actionsConfiguration.canRemoveFiles {
                 return false
             } else if item.type == .directory && !configuration.actionsConfiguration.canRemoveDirectories {
@@ -127,7 +135,7 @@ final class DirectoryContentViewModel {
     }
 
     var isSelectActionEnabled: Bool {
-        guard selectedItems.count > 0 else { return false }
+        guard selectedItems.count > 0 && !isSelectActionHidden else { return false }
 
         let selectedItemsAreAllowedToBeSelected = selectedItems.reduce(true) { enabled, item in
             if item.type == ItemType.directory && !configuration.actionsConfiguration.canChooseDirectories {
@@ -140,7 +148,7 @@ final class DirectoryContentViewModel {
         }
 
         let numberOfSelectedItemsIsAllowed = configuration.actionsConfiguration.allowsMultipleSelection ? selectedItems.count > 0 : selectedItems.count == 1
-        return selectedItemsAreAllowedToBeSelected && numberOfSelectedItemsIsAllowed
+        return !fileService.isDeletionInProgress && selectedItemsAreAllowedToBeSelected && numberOfSelectedItemsIsAllowed
     }
 
     var selectActionTitle: String {
@@ -196,7 +204,9 @@ final class DirectoryContentViewModel {
         let items = indexPaths.flatMap { item(for: $0) }
         fileService.delete(items: items) { result, removedItems, itemsNotRemovedDueToFailure in
             completionBlock(result)
+            self.delegate?.directoryViewModelDidChange(self)
         }
+        self.delegate?.directoryViewModelDidChange(self)
     }
     
     func chooseItems(completionBlock: ([Item<Any>]) -> Void) {
