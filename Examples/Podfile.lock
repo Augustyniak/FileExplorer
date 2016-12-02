@@ -1,5 +1,5 @@
 PODS:
-  - FileExplorer (1.0.1)
+  - FileExplorer (1.0.3)
 
 DEPENDENCIES:
   - FileExplorer (from `./../FileExplorer.podspec.json`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ./../FileExplorer.podspec.json
 
 SPEC CHECKSUMS:
-  FileExplorer: de6a76374216805f3eb85450d387b40779f0cf47
+  FileExplorer: de421e3b3e07b9cf584264efd5e19f5cdb9a9991
 
 PODFILE CHECKSUM: f09ca52ba3e673398c656e083a29129ede27a7d7
 
