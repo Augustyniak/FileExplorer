@@ -26,33 +26,31 @@
 import Foundation
 
 extension UIViewController {
-    @nonobjc static let kActivityIndicatorKey = "fer_activityIndicatorView"
+    @nonobjc static var kActivityIndicatorKey = "fer_activityIndicatorView"
     var activityIndicatorView: UIActivityIndicatorView? {
         get {
-            return objc_getAssociatedObject(self, UIViewController.kActivityIndicatorKey) as? UIActivityIndicatorView
+            return objc_getAssociatedObject(self, &UIViewController.kActivityIndicatorKey) as? UIActivityIndicatorView
         }
         set(newValue) {
-            objc_setAssociatedObject(self, UIViewController.kActivityIndicatorKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &UIViewController.kActivityIndicatorKey, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
     }
     
     func showLoadingIndicator() {
-        guard self.activityIndicatorView == nil else {
-            return
-        }
+        guard self.activityIndicatorView == nil else { return }
         
-        let activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.alpha = 0.0
+        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        activityIndicatorView.color = .gray
+        activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+        activityIndicatorView.autoresizingMask = [.flexibleTopMargin, .flexibleLeftMargin, .flexibleBottomMargin, .flexibleRightMargin]
         view.addSubview(activityIndicatorView)
         self.activityIndicatorView = activityIndicatorView
-        
-        UIView.animate(withDuration: 0.2) { 
-            activityIndicatorView.alpha = 1.0
-        }
+        activityIndicatorView.startAnimating()
     }
     
     func hideLoadingIndicator() {
+        self.activityIndicatorView?.stopAnimating()
         UIView.animate(withDuration: 0.2, animations: {
             self.activityIndicatorView?.alpha = 0.0
         }) { finished in
