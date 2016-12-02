@@ -1,6 +1,6 @@
 
 
-FileExplorer (iOS 10.0+)
+FileExplorer (iOS 9.0+)
 ==============
 
 👷 Project created and maintained by [Rafał Augustyniak](http://augustyniak.me). You can find me on twitter ([@RaAugustyniak](https://twitter.com/RaAugustyniak)).
