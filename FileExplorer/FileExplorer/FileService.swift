@@ -27,12 +27,13 @@
 import Foundation
 
 protocol FileService: class {
-    func load(item: Item<Any>, completionBlock: (Result<LoadedItem<Any>>) -> ())
+    func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ())
     func delete(items: [Item<Any>], completionBlock: @escaping (_ result: Result<Void>, _ removedItems: [Item<Any>], _ itemsNotRemovedDueToFailure: [Item<Any>]) -> Void)
 }
 
 enum FileServiceError: Error {
     case removalFailure(removedItems: [Item<Any>], itemsNotRemovedDueToFailure: [Item<Any>])
+    case loadingFailure()
 }
 
 extension Notification.Name {
@@ -47,21 +48,27 @@ final class LocalStorageFileService: FileService {
         self.fileManager = fileManager
     }
 
-    func load(item: Item<Any>, completionBlock: (Result<LoadedItem<Any>>) -> ()) {
-        let result = Result<LoadedItem<Any>>() {
-            let attributes = try fileManager.attributesOfItem(atPath: item.url.path)
-            let result: Any
-
-            if item.type == ItemType.directory {
-                let urls = try FileManager.default.contentsOfDirectory(at: item.url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.contentModificationDateKey], options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
-                result = item.parse(attributes, nil, urls)!
-            } else {
-                let data = try Data.init(contentsOf: item.url)
-                result = item.parse(attributes, data, nil)!
+    func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ()) {
+        DispatchQueue.global(qos: .default).async {
+            let result = Result<LoadedItem<Any>>() { [weak self] in
+                guard let strongSelf = self else { throw FileServiceError.loadingFailure() }
+                
+                let attributes = try strongSelf.fileManager.attributesOfItem(atPath: item.url.path)
+                let result: Any
+                
+                if item.type == ItemType.directory {
+                    let urls = try FileManager.default.contentsOfDirectory(at: item.url, includingPropertiesForKeys: [URLResourceKey.isDirectoryKey, URLResourceKey.contentModificationDateKey], options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
+                    result = item.parse(attributes, nil, urls)!
+                } else {
+                    let data = try Data.init(contentsOf: item.url)
+                    result = item.parse(attributes, data, nil)!
+                }
+                return LoadedItem(item: item, attributes: attributes, resource: result)
             }
-            return LoadedItem(item: item, attributes: attributes, resource: result)
+            DispatchQueue.main.async {
+                completionBlock(result)
+            }
         }
-        completionBlock(result)
     }
 
     func delete(items: [Item<Any>], completionBlock: @escaping (_ result: Result<Void>, _ deletedItems: [Item<Any>], _ itemsNotDeletedDueToFailure: [Item<Any>]) -> Void) {
