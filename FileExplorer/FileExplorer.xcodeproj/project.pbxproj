@@ -41,7 +41,6 @@
 		063C9CDD1DD7299200F96F43 /* LocalStorageFileServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C9CDC1DD7299200F96F43 /* LocalStorageFileServiceTests.swift */; };
 		063C9CDF1DD733B800F96F43 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C9CDE1DD733B800F96F43 /* FileManager+Extension.swift */; };
 		063C9CEB1DD7697200F96F43 /* ImageAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 063C9CE71DD7697200F96F43 /* ImageAssets.xcassets */; };
-		063C9CEC1DD7697200F96F43 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 063C9CE81DD7697200F96F43 /* Info.plist */; };
 		063C9CFD1DD77E3200F96F43 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063C9CFC1DD77E3200F96F43 /* Double+Extension.swift */; };
 		0649A8451DF03BF900D2B0BC /* UknownFileTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0649A8441DF03BF900D2B0BC /* UknownFileTypeViewController.swift */; };
 		0649A8471DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0649A8461DF0418C00D2B0BC /* UknownFileTypeViewControllerSnapshotTests.swift */; };
@@ -481,7 +480,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				063C9CEC1DD7697200F96F43 /* Info.plist in Resources */,
 				063C9CEB1DD7697200F96F43 /* ImageAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
