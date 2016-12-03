@@ -59,7 +59,7 @@ final class LocalStorageFileServiceTests: XCTestCase {
         try? FileManager.default.removeItem(at: directory.url)
     }
 
-    //MARK: Loading
+    // MARK: Loading
 
     func testWhetherDataOfImageFilesIsParsedCorrectly() {
         let expectation = self.expectation(description: "waiting for completion handler")
@@ -88,7 +88,7 @@ final class LocalStorageFileServiceTests: XCTestCase {
         waitForExpectations(timeout: 1.0)
     }
 
-    //MARK: Deletions
+    // MARK: Deletions
 
     func testWhetherProperNotificationIsSendAfterItemsDeletion() {
         let notificationReceivedExpectation = self.expectation(description: "waiting for notification")

@@ -148,7 +148,7 @@ final class DirectoryContentViewController: UICollectionViewController {
             ].flatMap { $0 }
     }
 
-    //Mark: Actions
+    // MARK: Actions
 
     func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in

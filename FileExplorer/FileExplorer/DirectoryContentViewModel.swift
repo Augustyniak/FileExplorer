@@ -213,7 +213,7 @@ final class DirectoryContentViewModel {
         completionBlock(selectedItems)
     }
     
-    //Mark: Helpers
+    // MARK: Helpers
 
     private static func itemsWithAppliedFilterAndSortCriterias(searchQuery: String, sortMode: SortMode, items: [Item<Any>]) -> [Item<Any>] {
         let searchQuery = searchQuery.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -241,7 +241,7 @@ final class DirectoryContentViewModel {
         fatalError()
     }
 
-    //Mark: UICollectionView
+    // MARK: UICollectionView
 
     var numberOfSections: Int {
         return 1
@@ -260,7 +260,7 @@ final class DirectoryContentViewModel {
         return itemsToDisplay[indexPath.item]
     }
 
-    //Mark: Actions 
+    // MARK: Actions 
 
     @objc
     private func handleItemsDeletedNotification(_ notification: Notification) {
