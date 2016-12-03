@@ -599,6 +599,42 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         viewModel.isEditing = true
         XCTAssertTrue(viewModel.isDeleteActionHidden)
     }
+    
+    func testWhetherViewInteractionIsNotBlockWhenDeletionIsNotInProgress() {
+        fileService.isDeletionInProgress = false
+        
+        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: true,
+                                                        canRemoveDirectories: true,
+                                                        canChooseFiles: true,
+                                                        canChooseDirectories: true,
+                                                        allowsMultipleSelection: true)
+        viewModel = makeViewModel(actionsConfiguration: actionsConfiguration)
+        viewModel.isEditing = true
+        viewModel.select(at: indexPathsOfFiles().first!)
+        
+        XCTAssertTrue(viewModel.isUserInteractionEnabled)
+        XCTAssertTrue(viewModel.isEditActionEnabled)
+        XCTAssertTrue(viewModel.isSelectActionEnabled)
+        XCTAssertTrue(viewModel.isDeleteActionEnabled)
+    }
+    
+    func testWhetherViewInteractionIsPartiallyBlockedWhenDeletionIsInProgress() {
+        fileService.isDeletionInProgress = true
+        
+        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: true,
+                                                        canRemoveDirectories: true,
+                                                        canChooseFiles: true,
+                                                        canChooseDirectories: true,
+                                                        allowsMultipleSelection: true)
+        viewModel = makeViewModel(actionsConfiguration: actionsConfiguration)
+        viewModel.isEditing = true
+        viewModel.select(at: indexPathsOfFiles().first!)
+        
+        XCTAssertFalse(viewModel.isUserInteractionEnabled)
+        XCTAssertFalse(viewModel.isEditActionEnabled)
+        XCTAssertFalse(viewModel.isSelectActionEnabled)
+        XCTAssertFalse(viewModel.isDeleteActionEnabled)
+    }
 
     //Mark: Sorting
 
@@ -648,13 +684,9 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
 }
 
 extension NonDiscDirectoryContentViewModelTests {
-    func makeViewModel(fileSpecifications: FileSpecifications = FileSpecifications(), configuration: Configuration = Configuration()) -> DirectoryContentViewModel {
-        return DirectoryContentViewModel(item: loadedItem, fileSpecifications: fileSpecifications, configuration: configuration, fileService: fileService)
-    }
-
     func makeViewModel(fileSpecifications: FileSpecifications = FileSpecifications(), actionsConfiguration: ActionsConfiguration = ActionsConfiguration(), filteringConfiguration: FilteringConfiguration = FilteringConfiguration()) -> DirectoryContentViewModel {
         let configuration = Configuration(actionsConfiguration: actionsConfiguration, filteringConfiguration: filteringConfiguration)
-        return makeViewModel(fileSpecifications: fileSpecifications, configuration: configuration)
+        return DirectoryContentViewModel(item: loadedItem, fileSpecifications: fileSpecifications, configuration: configuration, fileService: fileService)
     }
 
     func makeViewModelDelegate() -> MockedDirectoryContentViewModelDelegate {
