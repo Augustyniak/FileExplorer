@@ -258,7 +258,7 @@ final class ItemCell: UICollectionViewCell, Editable {
         return CGSize(width: max, height: max)
     }
 
-    //Mark: Actions 
+    // MARK: Actions 
 
     func handleAccessoryImageTap() {
         tapAction()

@@ -93,11 +93,8 @@ final class DirectoryContentViewController: UICollectionViewController {
 
         self.toolbarBottomConstraint = toolbar.pinToBottom(of: view)
         self.toolbarBottomConstraint?.constant = toolbar.bounds.height
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        syncWithViewModel(animated)
+        
+        syncWithViewModel(false)
     }
 
     func syncWithViewModel(_ animated: Bool) {
@@ -108,9 +105,11 @@ final class DirectoryContentViewController: UICollectionViewController {
         }
 
         syncToolbarWithViewModel()
-        let editBarButtonItem: UIBarButtonItem? = viewModel.isEditActionHidden ? nil : UIBarButtonItem(title: viewModel.editActionTitle, style: .plain, target: self, action: #selector(handleEditButtonTap))
-        setRightBarButtonItemRecursively(editBarButtonItem)
-        setNavigationItemTitleRecursively(viewModel.title)
+        let editBarButtonItem = viewModel.isEditActionHidden ? nil : UIBarButtonItem(title: viewModel.editActionTitle, style: .plain, target: self, action: #selector(handleEditButtonTap))
+        editBarButtonItem?.isEnabled = viewModel.isEditActionEnabled
+        activeRightBarButtonItem = editBarButtonItem
+        activeNavigationItemTitle = viewModel.title
+        view.isUserInteractionEnabled = viewModel.isUserInteractionEnabled
         setEditing(viewModel.isEditing, animated: true)
     }
 
@@ -138,9 +137,9 @@ final class DirectoryContentViewController: UICollectionViewController {
     }
 
     func syncToolbarWithViewModel() {
-        let selectActionButton: UIBarButtonItem? = !viewModel.isSelectActionHidden ? UIBarButtonItem(title: viewModel.selectActionTitle, style: .plain, target: self, action: #selector(handleSelectButtonTap)) : nil
+        let selectActionButton = !viewModel.isSelectActionHidden ? UIBarButtonItem(title: viewModel.selectActionTitle, style: .plain, target: self, action: #selector(handleSelectButtonTap)) : nil
         selectActionButton?.isEnabled = viewModel.isSelectActionEnabled
-        let deleteActionButton: UIBarButtonItem? = !viewModel.isDeleteActionHidden ? UIBarButtonItem(title: viewModel.deleteActionTitle, style: .plain, target: self, action: #selector(handleDeleteButtonTap)) : nil
+        let deleteActionButton = !viewModel.isDeleteActionHidden ? UIBarButtonItem(title: viewModel.deleteActionTitle, style: .plain, target: self, action: #selector(handleDeleteButtonTap)) : nil
         deleteActionButton?.isEnabled = viewModel.isDeleteActionEnabled
         toolbar.items = [
             selectActionButton,
@@ -149,7 +148,7 @@ final class DirectoryContentViewController: UICollectionViewController {
             ].flatMap { $0 }
     }
 
-    //Mark: Actions
+    // MARK: Actions
 
     func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in
@@ -158,8 +157,11 @@ final class DirectoryContentViewController: UICollectionViewController {
     }
 
     func handleDeleteButtonTap() {
+        showLoadingIndicator()
         viewModel.deleteItems(at: viewModel.indexPathsOfSelectedCells) { [weak self] result in
             guard let strongSelf = self else { return }
+            strongSelf.hideLoadingIndicator()
+            
             if case .error(let error) = result {
                 UIAlertController.presentAlert(for: error, in: strongSelf)
             }

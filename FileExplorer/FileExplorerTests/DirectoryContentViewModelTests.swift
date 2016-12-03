@@ -44,6 +44,8 @@ final class MockedDirectoryContentViewModelDelegate: DirectoryContentViewModelDe
 }
 
 final class MockedFileService: FileService {
+    var isDeletionInProgress: Bool = false
+    
     func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ()) {
 
     }
@@ -137,7 +139,7 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         viewModel.delegate = viewModelDelegate
     }
 
-    //Mark:
+    // MARK:
 
     func testTitle() {
         XCTAssertEqual(viewModel.title, directoryItem.url.lastPathComponent)
@@ -165,7 +167,7 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         XCTAssertTrue(viewModelDelegate.directoryViewModelDidChangeWasCalled)
     }
 
-    //Mark: Editing Action
+    // MARK: Editing Action
 
     func testWhetherEditingActionIsHiddenWhenSelectionsAndDeletionsAreDisabled() {
         var actionsConfiguration = ActionsConfiguration()
@@ -200,7 +202,7 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isEditActionHidden)
     }
 
-    //Mark: Filtering
+    // MARK: Filtering
 
     func testWhetherFileFilterAreApplied() {
         var filteringConfiguration = FilteringConfiguration()
@@ -232,7 +234,7 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         }
     }
 
-    //Mark: Selections
+    // MARK: Selections
 
     func testWhetherSelectionActionStateIsCorrectWhenFileAndDirectorySelectionsAreEnabledAndMultipleSelectionIsDisabled() {
         let actionsConfiguration = ActionsConfiguration(canRemoveFiles: false,
@@ -480,7 +482,7 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
     }
 
 
-    //Mark: Deletions
+    // MARK: Deletions
 
     func testWhetherDeleteActionIsHiddenWhenDirectoryAndFileSelectionAreDisabled() {
         let actionsConfiguration = ActionsConfiguration(canRemoveFiles: false,
@@ -597,8 +599,44 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
         viewModel.isEditing = true
         XCTAssertTrue(viewModel.isDeleteActionHidden)
     }
+    
+    func testWhetherViewInteractionIsNotBlockWhenDeletionIsNotInProgress() {
+        fileService.isDeletionInProgress = false
+        
+        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: true,
+                                                        canRemoveDirectories: true,
+                                                        canChooseFiles: true,
+                                                        canChooseDirectories: true,
+                                                        allowsMultipleSelection: true)
+        viewModel = makeViewModel(actionsConfiguration: actionsConfiguration)
+        viewModel.isEditing = true
+        viewModel.select(at: indexPathsOfFiles().first!)
+        
+        XCTAssertTrue(viewModel.isUserInteractionEnabled)
+        XCTAssertTrue(viewModel.isEditActionEnabled)
+        XCTAssertTrue(viewModel.isSelectActionEnabled)
+        XCTAssertTrue(viewModel.isDeleteActionEnabled)
+    }
+    
+    func testWhetherViewInteractionIsPartiallyBlockedWhenDeletionIsInProgress() {
+        fileService.isDeletionInProgress = true
+        
+        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: true,
+                                                        canRemoveDirectories: true,
+                                                        canChooseFiles: true,
+                                                        canChooseDirectories: true,
+                                                        allowsMultipleSelection: true)
+        viewModel = makeViewModel(actionsConfiguration: actionsConfiguration)
+        viewModel.isEditing = true
+        viewModel.select(at: indexPathsOfFiles().first!)
+        
+        XCTAssertFalse(viewModel.isUserInteractionEnabled)
+        XCTAssertFalse(viewModel.isEditActionEnabled)
+        XCTAssertFalse(viewModel.isSelectActionEnabled)
+        XCTAssertFalse(viewModel.isDeleteActionEnabled)
+    }
 
-    //Mark: Sorting
+    // MARK: Sorting
 
     func testWhetherSortByNameWorks() {
         let itemsInExpectedOrder = [
@@ -646,13 +684,9 @@ final class NonDiscDirectoryContentViewModelTests: XCTestCase {
 }
 
 extension NonDiscDirectoryContentViewModelTests {
-    func makeViewModel(fileSpecifications: FileSpecifications = FileSpecifications(), configuration: Configuration = Configuration()) -> DirectoryContentViewModel {
-        return DirectoryContentViewModel(item: loadedItem, fileSpecifications: fileSpecifications, configuration: configuration, fileService: fileService)
-    }
-
     func makeViewModel(fileSpecifications: FileSpecifications = FileSpecifications(), actionsConfiguration: ActionsConfiguration = ActionsConfiguration(), filteringConfiguration: FilteringConfiguration = FilteringConfiguration()) -> DirectoryContentViewModel {
         let configuration = Configuration(actionsConfiguration: actionsConfiguration, filteringConfiguration: filteringConfiguration)
-        return makeViewModel(fileSpecifications: fileSpecifications, configuration: configuration)
+        return DirectoryContentViewModel(item: loadedItem, fileSpecifications: fileSpecifications, configuration: configuration, fileService: fileService)
     }
 
     func makeViewModelDelegate() -> MockedDirectoryContentViewModelDelegate {

@@ -29,6 +29,8 @@ import Foundation
 protocol FileService: class {
     func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ())
     func delete(items: [Item<Any>], completionBlock: @escaping (_ result: Result<Void>, _ removedItems: [Item<Any>], _ itemsNotRemovedDueToFailure: [Item<Any>]) -> Void)
+    
+    var isDeletionInProgress: Bool { get }
 }
 
 enum FileServiceError: Error {
@@ -43,6 +45,7 @@ extension Notification.Name {
 
 final class LocalStorageFileService: FileService {
     private let fileManager: FileManager
+    var isDeletionInProgress: Bool = false
 
     init(fileManager: FileManager = FileManager.default) {
         self.fileManager = fileManager
@@ -72,6 +75,10 @@ final class LocalStorageFileService: FileService {
     }
 
     func delete(items: [Item<Any>], completionBlock: @escaping (_ result: Result<Void>, _ deletedItems: [Item<Any>], _ itemsNotDeletedDueToFailure: [Item<Any>]) -> Void) {
+        guard !isDeletionInProgress else { return }
+        
+        isDeletionInProgress = true
+        
         var deletedItems = [Item<Any>]()
         var itemsNotRemovedDueToFailure = [Item<Any>]()
 
@@ -90,6 +97,7 @@ final class LocalStorageFileService: FileService {
                 if deletedItems.count > 0 {
                     NotificationCenter.default.post(name: Notification.Name.ItemsDeleted, object: deletedItems)
                 }
+                strongSelf.isDeletionInProgress = false
                 if itemsNotRemovedDueToFailure.count > 0 {
                     completionBlock(.error(FileServiceError.removalFailure(removedItems: deletedItems, itemsNotRemovedDueToFailure: itemsNotRemovedDueToFailure)),
                                     deletedItems,

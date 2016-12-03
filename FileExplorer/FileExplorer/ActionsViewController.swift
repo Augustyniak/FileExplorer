@@ -67,7 +67,7 @@ final class ActionsViewController: UIViewController {
         navigationItem.title = contentViewController.navigationItem.title
     }
 
-    //MARK: Actions
+    // MARK: Actions
     
     @objc
     private func handleShareButtonTap() {

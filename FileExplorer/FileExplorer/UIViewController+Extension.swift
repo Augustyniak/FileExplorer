@@ -61,33 +61,42 @@ extension UIViewController {
 }
 
 extension UIViewController {
-    func setRightBarButtonItemRecursively(_ barButtonItem: UIBarButtonItem?) {
-        var viewController: UIViewController? = self
-        while viewController != nil {
-            viewController?.navigationItem.rightBarButtonItem = barButtonItem
-            if viewController?.navigationItem === navigationController?.navigationItem {
-                break
-            }
-            viewController = viewController?.parent
+    var activeRightBarButtonItem: UIBarButtonItem? {
+        get {
+            return activeNavigationItem?.rightBarButtonItem
+        }
+        
+        set(newValue) {
+            navigationItem.rightBarButtonItem = newValue
+            activeNavigationItem?.rightBarButtonItem = newValue
         }
     }
     
-    func setNavigationItemTitleRecursively(_ title: String) {
-        var viewController: UIViewController? = self
-        while viewController != nil {
-            viewController?.navigationItem.title = title
-            if viewController?.navigationItem === navigationController?.navigationItem {
-                break
-            }
-            viewController = viewController?.parent
+    var activeNavigationItemTitle: String? {
+        get {
+            return activeNavigationItem?.title
+        }
+        set(newValue) {
+            navigationItem.title = newValue
+            activeNavigationItem?.title = newValue
+        }
+    }
+    
+    var activeNavigationItem: UINavigationItem? {
+        guard let viewController = navigationController?.topViewController else { return nil }
+        
+        if viewController.navigationItem === navigationItem {
+            return navigationItem
+        } else {
+            return parent?.activeNavigationItem
         }
     }
 }
 
 extension UIViewController {
     func addContentChildViewController(_ content: UIViewController, insets: UIEdgeInsets = UIEdgeInsets.zero) {
-        addChildViewController(content)
         view.addSubview(content.view)
+        addChildViewController(content)
         content.view.frame = UIEdgeInsetsInsetRect(view.bounds, insets)
         content.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         content.didMove(toParentViewController: self)
