@@ -63,14 +63,25 @@ final class ImageViewController: UIViewController {
         scrollView.delegate = self
         scrollView.addSubview(imageView)
     }
+    
+    fileprivate func centerImageView() {
+        var vertical: CGFloat = 0, horizontal: CGFloat = 0
+        if scrollView.contentSize.width < view.bounds.width {
+            horizontal = (scrollView.bounds.width - scrollView.contentSize.width)/2
+        }
+        if scrollView.contentSize.height < view.bounds.height {
+            vertical = (scrollView.bounds.height - scrollView.contentSize.height)/2
+        }
+        scrollView.contentInset = UIEdgeInsets(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
+    }
 }
 
 extension ImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        centerImageView()
     }
 }
