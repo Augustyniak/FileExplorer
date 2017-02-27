@@ -117,8 +117,8 @@ final class DirectoryContentViewController: UICollectionViewController {
         {
             guard let collectionView = collectionView else { return }
             let searchIndexPath = IndexPath(item: i, section: 0)
-            var selectedIndexPath = selectedCellPaths.index(of: searchIndexPath)
-            var selected = selectedIndexPath != nil ? true : false
+            let selectedIndexPath = selectedCellPaths.index(of: searchIndexPath)
+            let selected = selectedIndexPath != nil ? true : false
             if selected
             {
                 collectionView.selectItem(at: searchIndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
