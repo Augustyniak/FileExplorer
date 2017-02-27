@@ -148,9 +148,10 @@ final class DirectoryContentViewModel {
         }
 
         let numberOfSelectedItemsIsAllowed = configuration.actionsConfiguration.allowsMultipleSelection ? selectedItems.count > 0 : selectedItems.count == 1
+
         return !fileService.isDeletionInProgress && selectedItemsAreAllowedToBeSelected && numberOfSelectedItemsIsAllowed
     }
-
+    
     var selectActionTitle: String {
         return NSLocalizedString("Choose", comment: "")
     }
@@ -162,7 +163,7 @@ final class DirectoryContentViewModel {
     private let configuration: Configuration
     private let fileSpecifications: FileSpecifications
     private let fileService: FileService
-
+    
     init(item: LoadedDirectoryItem, fileSpecifications: FileSpecifications, configuration: Configuration, fileService: FileService = LocalStorageFileService()) {
         self.url = item.url
         self.fileSpecifications = fileSpecifications
@@ -181,7 +182,14 @@ final class DirectoryContentViewModel {
     func select(at indexPath: IndexPath) {
         let item = self.item(for: indexPath)
         if isEditing {
-            selectedItems.append(item)
+            if(configuration.actionsConfiguration.allowsMultipleSelection)
+            {
+                selectedItems.append(item)
+            }
+            else{
+                selectedItems.removeAll()
+                selectedItems.append(item)
+            }
         } else {
             delegate?.directoryViewModel(self, didSelectItem: item)
         }

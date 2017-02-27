@@ -32,9 +32,11 @@ final class FileItemPresentationCoordinator {
     fileprivate weak var navigationController: UINavigationController?
     fileprivate let fileService: FileService
     fileprivate let fileSpecifications: FileSpecifications
+    fileprivate let configuration: Configuration
     fileprivate let item: Item<Any>
 
-    init(navigationController: UINavigationController, item: Item<Any>, fileSpecifications: FileSpecifications, fileService: FileService = LocalStorageFileService()) {
+    init(configuration: Configuration, navigationController: UINavigationController, item: Item<Any>, fileSpecifications: FileSpecifications, fileService: FileService = LocalStorageFileService()) {
+        self.configuration = configuration
         self.navigationController = navigationController
         self.item = item
         self.fileSpecifications = fileSpecifications
@@ -69,7 +71,7 @@ final class FileItemPresentationCoordinator {
     private func makePresentingViewController(item: Item<Any>, builder: @escaping (LoadedItem<Any>) -> UIViewController) -> UIViewController {
         let viewController = LoadingViewController<Any>.make(item: item) { [weak self] loadedItem in
             let contentViewController = builder(loadedItem)
-            let actionsViewController = ActionsViewController(contentViewController: contentViewController)
+            let actionsViewController = ActionsViewController(configuration: self!.configuration, contentViewController: contentViewController)
             actionsViewController.delegate = self
             return actionsViewController
         }
