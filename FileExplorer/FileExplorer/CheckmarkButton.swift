@@ -51,7 +51,6 @@ final class CheckmarkButton: UIButton {
         borderColor = ColorPallete.gray
         isSelected = false
         addTarget(self, action: #selector(handleTouchUpInside), for: .touchUpInside)
-        isUserInteractionEnabled = false
     }
 
     required init?(coder aDecoder: NSCoder) {

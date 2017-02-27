@@ -111,24 +111,6 @@ final class DirectoryContentViewController: UICollectionViewController {
         activeNavigationItemTitle = viewModel.title
         view.isUserInteractionEnabled = viewModel.isUserInteractionEnabled
         setEditing(viewModel.isEditing, animated: true)
-        //get the selection states from the view model and syncronize them
-        let selectedCellPaths = viewModel.indexPathsOfSelectedCells
-        for i in  0...viewModel.numberOfItems(inSection: 0)
-        {
-            guard let collectionView = collectionView else { return }
-            let searchIndexPath = IndexPath(item: i, section: 0)
-            var selectedIndexPath = selectedCellPaths.index(of: searchIndexPath)
-            var selected = selectedIndexPath != nil ? true : false
-            if selected
-            {
-                collectionView.selectItem(at: searchIndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
-            }
-            else
-            {
-                collectionView.deselectItem(at: searchIndexPath, animated: false)
-            }
-        }
-
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {

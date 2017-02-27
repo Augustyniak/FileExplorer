@@ -31,7 +31,6 @@ struct Configuration {
 }
 
 struct ActionsConfiguration {
-    var canShareFiles: Bool = false
     var canRemoveFiles: Bool = false
     var canRemoveDirectories: Bool = false
     var canChooseFiles: Bool = false

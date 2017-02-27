@@ -49,9 +49,6 @@ public final class FileExplorerViewController: UIViewController {
     public var initialDirectoryURL: URL = URL.documentDirectory
 
     /// A Boolean value indicating whether the user is allowed to remove files.
-    public var canShareFiles: Bool = true
-
-    /// A Boolean value indicating whether the user is allowed to remove files.
     public var canRemoveFiles: Bool = true
 
     /// A Boolean value indicating whether the user is allowed to remove directories.
@@ -116,8 +113,7 @@ public final class FileExplorerViewController: UIViewController {
         super.viewWillAppear(animated)
         let fileSpecifications = FileSpecifications(providers: fileSpecificationProviders)
 
-        let actionsConfiguration = ActionsConfiguration(canShareFiles: canShareFiles,
-                                                        canRemoveFiles: canRemoveFiles,
+        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: canRemoveFiles,
                                                         canRemoveDirectories: canRemoveDirectories,
                                                         canChooseFiles: canChooseFiles,
                                                         canChooseDirectories: canChooseDirectories,

@@ -51,7 +51,7 @@ final class ItemPresentationCoordinator {
 
         switch item.type {
         case .file:
-            let coordinator = FileItemPresentationCoordinator(configuration: configuration, navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
+            let coordinator = FileItemPresentationCoordinator(navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
             coordinator.start(animated)
             childCoordinators.append(coordinator)
         case .directory:
@@ -75,7 +75,7 @@ extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDeleg
 
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItemDetails item: Item<Any>) {
         guard let navigationController = navigationController else { fatalError() }
-        let coordinator = FileItemPresentationCoordinator(configuration: configuration, navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
+        let coordinator = FileItemPresentationCoordinator(navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
         childCoordinators.append(coordinator)
         coordinator.startDetailsPreview(true)
     }
