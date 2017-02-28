@@ -241,7 +241,7 @@ final class DirectoryContentViewModel {
     }
     
     private func index(for item: Item<Any>) -> IndexPath {
-        for (i, iterItem) in allItems.enumerated() {
+        for (i, iterItem) in itemsToDisplay.enumerated() {
             if iterItem == item {
                 return IndexPath(item: i, section: 0)
             }
