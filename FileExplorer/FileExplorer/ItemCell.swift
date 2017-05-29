@@ -86,6 +86,7 @@ final class ItemCell: UICollectionViewCell, Editable {
         containerView.addSubview(subtitleTextLabel)
         
         accessoryImageView = UILabel()
+        accessoryImageView.font = UIFont.systemFont(ofSize: 28)
         //accessoryImageView.contentMode = .center
         containerView.addSubview(accessoryImageView)
 
@@ -248,7 +249,7 @@ final class ItemCell: UICollectionViewCell, Editable {
                 accessoryImageViewTapRecognizer.isEnabled = true
             case .disclosureIndicator:
                 //accessoryImageView.image = UIImage.make(for: "DisclosureButtonImage")
-                accessoryImageView.text = ">"
+                accessoryImageView.text = "〉"
                 accessoryImageViewTapRecognizer.isEnabled = false
             }
             setNeedsLayout()
