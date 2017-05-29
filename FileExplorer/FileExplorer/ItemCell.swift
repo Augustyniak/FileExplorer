@@ -71,6 +71,8 @@ final class ItemCell: UICollectionViewCell, Editable {
         iconImageView = UIImageView()
         iconImageView.contentMode = .scaleAspectFit
         containerView.addSubview(iconImageView)
+        iconImageView.layer.borderWidth = 1
+        iconImageView.layer.borderColor = UIColor(red:248/255, green:45/255, blue:85/255, alpha:1.00).cgColor
         
         titleTextLabel = UILabel()
         titleTextLabel.numberOfLines = 1
@@ -87,6 +89,7 @@ final class ItemCell: UICollectionViewCell, Editable {
         
         accessoryImageView = UILabel()
         accessoryImageView.font = UIFont.systemFont(ofSize: 28)
+        accessoryImageView.textColor = UIColor(red:248/255, green:45/255, blue:85/255, alpha:1.00)
         //accessoryImageView.contentMode = .center
         containerView.addSubview(accessoryImageView)
 
