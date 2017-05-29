@@ -51,7 +51,7 @@ final class ItemCell: UICollectionViewCell, Editable {
     private let iconImageView: UIImageView
     private let titleTextLabel: UILabel
     private let subtitleTextLabel: UILabel
-    private let accessoryImageView: UIImageView
+    private let accessoryImageView: UILabel
     private var customAccessoryType = AccessoryType.detailButton
     private let checkmarkButton: CheckmarkButton
     
@@ -85,8 +85,8 @@ final class ItemCell: UICollectionViewCell, Editable {
         subtitleTextLabel.textColor = UIColor.gray
         containerView.addSubview(subtitleTextLabel)
         
-        accessoryImageView = UIImageView()
-        accessoryImageView.contentMode = .center
+        accessoryImageView = UILabel()
+        //accessoryImageView.contentMode = .center
         containerView.addSubview(accessoryImageView)
 
         checkmarkButton = CheckmarkButton()
@@ -243,10 +243,12 @@ final class ItemCell: UICollectionViewCell, Editable {
             customAccessoryType = newValue
             switch customAccessoryType {
             case .detailButton:
-                accessoryImageView.image = UIImage.make(for: "DetailButtonImage")
+                //accessoryImageView.image = UIImage.make(for: "DetailButtonImage")
+                accessoryImageView.text = "ⓘ"
                 accessoryImageViewTapRecognizer.isEnabled = true
             case .disclosureIndicator:
-                accessoryImageView.image = UIImage.make(for: "DisclosureButtonImage")
+                //accessoryImageView.image = UIImage.make(for: "DisclosureButtonImage")
+                accessoryImageView.text = ">"
                 accessoryImageViewTapRecognizer.isEnabled = false
             }
             setNeedsLayout()
