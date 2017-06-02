@@ -30,7 +30,7 @@ import AVFoundation
 protocol ItemPresentationCoordinatorDelegate: class {
     func itemPresentationCoordinatorDidFinish(_ coordinator: ItemPresentationCoordinator)
     func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, didChooseItems items: [Item<Any>])
-    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void))
+    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>]) -> Void))
 }
 
 final class ItemPresentationCoordinator {
@@ -70,6 +70,7 @@ final class ItemPresentationCoordinator {
 }
 
 extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDelegate {
+
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItem item: Item<Any>) {
         start(item: item, fileSpecifications: fileSpecifications, configuration: configuration, animated: true)
     }
@@ -88,7 +89,7 @@ extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDeleg
     func directoryItemPresentationCoordinatorDidFinish(_ coordinator: DirectoryItemPresentationCoordinator) {
         delegate?.itemPresentationCoordinatorDidFinish(self)
     }
-    internal func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void)) {
+    internal func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>]) -> Void)) {
         delegate?.itemPresentationCoordinator(self, shouldRemoveItems: items, removeItemsHandler: {(itemsToRemove) -> Void in
             removeItemsHandler(itemsToRemove)
         })

@@ -42,7 +42,7 @@ public protocol FileExplorerViewControllerDelegate: class {
     func fileExplorerViewController(_ controller: FileExplorerViewController, didChooseURLs urls: [URL])
     //the handler will return the urls which can be removed
     //NOTE: the result URL array can be empty
-    func fileExplorerViewController(controller: FileExplorerViewController, shouldRemoveURLs urls: [URL], handler: (([URL]) -> Void))
+    func fileExplorerViewController(controller: FileExplorerViewController, shouldRemoveURLs urls: [URL], handler: @escaping (([URL]) -> Void))
 }
 
 /// The FileExplorerViewController class manages customizable for displaying, removing and choosing files and directories stored in local storage of the device in your app. A file explorer view controller manages user interactions and delivers the results of those interactions to a delegate object.
@@ -153,7 +153,7 @@ extension FileExplorerViewController: ItemPresentationCoordinatorDelegate {
         delegate?.fileExplorerViewController(self, didChooseURLs: urls)
     }
     
-    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (_ removeItems:[Item<Any>]) -> Void)
+    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (_ removeItems:[Item<Any>]) -> Void)
     {
         let urls = items.map { $0.url }
         delegate?.fileExplorerViewController(controller: self, shouldRemoveURLs: urls, handler: { (filesToRemove) -> Void in
