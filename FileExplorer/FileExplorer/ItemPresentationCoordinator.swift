@@ -30,6 +30,7 @@ import AVFoundation
 protocol ItemPresentationCoordinatorDelegate: class {
     func itemPresentationCoordinatorDidFinish(_ coordinator: ItemPresentationCoordinator)
     func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, didChooseItems items: [Item<Any>])
+    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void))
 }
 
 final class ItemPresentationCoordinator {
@@ -86,5 +87,10 @@ extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDeleg
     
     func directoryItemPresentationCoordinatorDidFinish(_ coordinator: DirectoryItemPresentationCoordinator) {
         delegate?.itemPresentationCoordinatorDidFinish(self)
+    }
+    internal func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void)) {
+        delegate?.itemPresentationCoordinator(self, shouldRemoveItems: items, removeItemsHandler: {(itemsToRemove) -> Void in
+            removeItemsHandler(itemsToRemove)
+        })
     }
 }

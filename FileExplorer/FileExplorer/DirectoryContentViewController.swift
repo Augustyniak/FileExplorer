@@ -30,6 +30,7 @@ protocol DirectoryContentViewControllerDelegate: class {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItem item: Item<Any>)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItemDetails item: Item<Any>)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChooseItems items: [Item<Any>])
+    func directoryContentViewController(_ controller: DirectoryContentViewController, shouldRemoveItems: [Item<Any>], removeItemsHandler:(([Item<Any>])->Void))
 }
 
 final class DirectoryContentViewController: UICollectionViewController {
@@ -176,16 +177,29 @@ final class DirectoryContentViewController: UICollectionViewController {
 
     func handleDeleteButtonTap() {
         showLoadingIndicator()
-        viewModel.deleteItems(at: viewModel.indexPathsOfSelectedCells) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.hideLoadingIndicator()
-            
-            if case .error(let error) = result {
-                UIAlertController.presentAlert(for: error, in: strongSelf)
-            }
-
-            strongSelf.viewModel.isEditing = false
-            strongSelf.delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
+        viewModel.chooseItems { selectedItems in
+            let indexPaths = viewModel.indexPathsOfSelectedCells
+            delegate?.directoryContentViewController(self, shouldRemoveItems:selectedItems, removeItemsHandler:{(itemsToRemove)->Void in
+                var indexPathsToRemove = [IndexPath]()
+                for item in itemsToRemove
+                {
+                    if let index = selectedItems.index(where: { $0 == item })
+                    {
+                        indexPathsToRemove.append(indexPaths[index])
+                    }
+                }
+                viewModel.deleteItems(at: indexPathsToRemove) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    strongSelf.hideLoadingIndicator()
+                    
+                    if case .error(let error) = result {
+                        UIAlertController.presentAlert(for: error, in: strongSelf)
+                    }
+                    
+                    strongSelf.viewModel.isEditing = false
+                    strongSelf.delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
+                }
+            })
         }
     }
 

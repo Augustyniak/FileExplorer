@@ -29,6 +29,7 @@ protocol DirectoryItemPresentationCoordinatorDelegate: class {
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItem item: Item<Any>)
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItemDetails item: Item<Any>)
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didChooseItems items: [Item<Any>])
+    func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>])->Void))
     func directoryItemPresentationCoordinatorDidFinish(_ coordinator: DirectoryItemPresentationCoordinator)
 }
 
@@ -76,6 +77,10 @@ final class DirectoryItemPresentationCoordinator {
 }
 
 extension DirectoryItemPresentationCoordinator: DirectoryViewControllerDelegate {
+    func directoryViewController(_ controller: DirectoryViewController, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void)) {
+        delegate?.directoryItemPresentationCoordinator(self, shouldRemoveItems: items, removeItemsHandler: removeItemsHandler)
+    }
+
     func directoryViewController(_ controller: DirectoryViewController, didSelectItem item: Item<Any>) {
         directoryViewController?.isSearchControllerActive = false
         delegate?.directoryItemPresentationCoordinator(self, didSelectItem: item)

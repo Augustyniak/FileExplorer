@@ -58,6 +58,7 @@ protocol DirectoryViewControllerDelegate: class {
     func directoryViewController(_ controller: DirectoryViewController, didSelectItem item: Item<Any>)
     func directoryViewController(_ controller: DirectoryViewController, didSelectItemDetails item: Item<Any>)
     func directoryViewController(_ controller: DirectoryViewController, didChooseItems items: [Item<Any>])
+    func directoryViewController(_ controller: DirectoryViewController, shouldRemoveItems items: [Item<Any>], removeItemsHandler: (([Item<Any>])->Void))
     func directoryViewControllerDidFinish(_ controller: DirectoryViewController)
 }
 
@@ -147,6 +148,10 @@ extension DirectoryViewController: UISearchBarDelegate {
 }
 
 extension DirectoryViewController: DirectoryContentViewControllerDelegate {
+    internal func directoryContentViewController(_ controller: DirectoryContentViewController, shouldRemoveItems: [Item<Any>], removeItemsHandler: (([Item<Any>]) -> Void)) {
+        delegate?.directoryViewController(self, shouldRemoveItems: shouldRemoveItems, removeItemsHandler:removeItemsHandler)
+    }
+
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
         searchController.searchBar.isEnabled = !isEditing
     }
