@@ -65,10 +65,12 @@ final class ActionsViewController: UIViewController {
         {
             toolbar.items?.insert(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(handleShareButtonTap)), at: 0)
         }
-        if configuration.actionsConfiguration.canRemoveFiles
-        {
-            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrashButtonTap)))
-        }
+        // TODO: activate the following 'trash button' again and
+        // implement functionality to check if item can be deleted or not
+//        if configuration.actionsConfiguration.canRemoveFiles
+//        {
+//            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrashButtonTap)))
+//        }
 
         addContentChildViewController(contentViewController, insets: UIEdgeInsets(top: 0, left: 0, bottom: toolbar.bounds.height, right: 0))
         navigationItem.title = contentViewController.navigationItem.title
