@@ -76,7 +76,7 @@ final class DirectoryContentViewModel {
 
     var isEditActionHidden: Bool {
         let actionsConfiguration = configuration.actionsConfiguration
-        return !actionsConfiguration.canChooseDirectories && !actionsConfiguration.canChooseFiles && !actionsConfiguration.canRemoveDirectories && !actionsConfiguration.canRemoveFiles
+        return !actionsConfiguration.canChooseDirectories && !actionsConfiguration.canChooseFiles && !actionsConfiguration.canRemoveDirectories && !actionsConfiguration.canRemoveFiles || (actionsConfiguration.directSelection)
     }
     
     var isEditActionEnabled: Bool {
@@ -175,7 +175,12 @@ final class DirectoryContentViewModel {
         self.allItems = item.resource.filter {  filteringConfiguration.fileFilters.count == 0 || filteringConfiguration.fileFilters.matchesItem($0) }
         self.allItems = self.allItems.filter { filteringConfiguration.ignoredFileFilters.count == 0 || !filteringConfiguration.ignoredFileFilters.matchesItem($0) }
         self.itemsToDisplay = DirectoryContentViewModel.itemsWithAppliedFilterAndSortCriterias(searchQuery: "", sortMode: sortMode, items: self.allItems)
-
+        
+        //activate editing mode directly if direct selection with single selection has been set
+        if configuration.actionsConfiguration.directSelection
+        {
+            isEditing = true
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(handleItemsDeletedNotification(_:)), name: Notification.Name.ItemsDeleted, object: nil)
     }
 

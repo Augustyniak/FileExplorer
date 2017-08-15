@@ -68,6 +68,8 @@ public final class FileExplorerViewController: UIViewController {
 
     /// A Boolean value indicating whether multiple files and/or directories can be choosen at a time.
     public var allowsMultipleSelection: Bool = true
+    /// if directSelection is enabled -> enable editing mode directly
+    public var directSelection: Bool = false
 
     /// Filters that determine which files are displayed by file explorer view controller.
     ///
@@ -124,7 +126,8 @@ public final class FileExplorerViewController: UIViewController {
                                                         canRemoveDirectories: canRemoveDirectories,
                                                         canChooseFiles: canChooseFiles,
                                                         canChooseDirectories: canChooseDirectories,
-                                                        allowsMultipleSelection: allowsMultipleSelection)
+                                                        allowsMultipleSelection: allowsMultipleSelection,
+                                                        directSelection: directSelection)
         let filteringConfiguration = FilteringConfiguration(fileFilters: fileFilters, ignoredFileFilters: ignoredFileFilters)
         let configuration = Configuration(actionsConfiguration: actionsConfiguration, filteringConfiguration: filteringConfiguration)
 
