@@ -33,7 +33,7 @@ protocol ActionsViewControllerDelegate: class {
 final class ActionsViewController: UIViewController {
     weak var delegate: ActionsViewControllerDelegate?
 
-    private let toolbar = UIToolbar()
+    let toolbar = UIToolbar()
     private let contentViewController: UIViewController
 
     init(contentViewController: UIViewController) {
