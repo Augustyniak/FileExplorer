@@ -33,7 +33,7 @@ protocol ActionsViewControllerDelegate: class {
 final class ActionsViewController: UIViewController {
     weak var delegate: ActionsViewControllerDelegate?
 
-    let toolbar = UIToolbar()
+    private let toolbar = UIToolbar()
     private let contentViewController: UIViewController
 
     init(contentViewController: UIViewController) {
@@ -77,5 +77,11 @@ final class ActionsViewController: UIViewController {
     @objc
     private func handleTrashButtonTap() {
         delegate?.actionsViewControllerDidRequestRemoval(self)
+    }
+    
+    //MARK: public access
+    
+    func shareButton() -> UIBarButtonItem? {
+        return toolbar.items?[0]
     }
 }
