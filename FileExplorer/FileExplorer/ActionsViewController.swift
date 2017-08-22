@@ -78,4 +78,10 @@ final class ActionsViewController: UIViewController {
     private func handleTrashButtonTap() {
         delegate?.actionsViewControllerDidRequestRemoval(self)
     }
+    
+    //MARK: public access
+    
+    func shareButton() -> UIBarButtonItem? {
+        return toolbar.items?[0]
+    }
 }
