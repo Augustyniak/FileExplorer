@@ -161,6 +161,25 @@ public func fileExplorerViewController(_ controller: FileExplorerViewController,
 }
 ```
 
+### Deciding Which Files Extensions User can Choose
+
+Configure `FileExplorer` so that user is allowed to choose files of only specific file extensions:
+
+```Swift
+let fileExplorer = FileExplorerViewController()
+fileExplorer.canChooseFiles = true //specify whether user is allowed to choose files
+fileExplorer.canChooseDirectories = false //specify whether user is allowed to choose directories
+
+List the file extensions that can be choosen
+fileExplorer.selectableFileExtensions = ["png", "mp3"]
+
+fileExplorer.delegate = self
+
+self.present(fileExplorer, animated: true, completion: nil)
+```
+
+If no file extensions are specified as selectableFileExtensions, all file types are enabled by default.
+
 ### Deciding Whether User Can Delete Files and/or Directories
 
 Configure `FileExplorer` so that user is allowed to remove files and/or directories:
