@@ -142,6 +142,12 @@ final class DirectoryContentViewModel {
                 return false
             } else if item.type == ItemType.file && !configuration.actionsConfiguration.canChooseFiles {
                 return false
+            } else if item.type == ItemType.file{
+                if configuration.filteringConfiguration.isSelectableFileExtension(fileItem: item) {
+                    return true && enabled
+                    } else {
+                    return false
+                }
             } else {
                 return true && enabled
             }

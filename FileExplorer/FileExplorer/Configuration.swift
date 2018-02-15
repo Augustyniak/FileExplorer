@@ -41,11 +41,26 @@ struct ActionsConfiguration {
 struct FilteringConfiguration {
     var fileFilters: [Filter]
     var ignoredFileFilters: [Filter]
+    var selectableFileExtensions: [String]
 }
 
 extension FilteringConfiguration {
     init() {
-        self.init(fileFilters: [Filter](), ignoredFileFilters: [Filter]())
+        self.init(fileFilters: [Filter](), ignoredFileFilters: [Filter](), selectableFileExtensions: [String]())
+    }
+    
+    func isSelectableFileExtension(fileItem: Item<Any>) -> Bool{
+        var isSelectable = true
+        if selectableFileExtensions.count > 0 {
+            isSelectable = false
+            for selectableExtension in selectableFileExtensions {
+                if fileItem.extension == selectableExtension {
+                    isSelectable = true
+                    break
+                }
+            }
+        }
+        return isSelectable
     }
 }
 
