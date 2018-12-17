@@ -21,15 +21,15 @@ Introduction
 FileExplorer is a control designed to provide an easy way to browse and interact with local file system on iOS devices. It works as file browser with additional possibility of deleting specified files and/or directories and possibility to choose files and/or directories.
 
 
-         | Main Features
----------|---------------
-👉 | Possibility to choose files or/and directories if there is a need for that
-🗑 | Possiblity to remove files or/and directories if there is a need for that
-&#128269; | Built-in search functionality
-📚 | Documented
-&#127968; | Out of the box support for image, audio, video and pdf files
-&#128640; | Extendable API; Possibility to add support for any file type
-&#128038; | Written in Swift
+|         | Main Features |
+|---------|---------------|
+| 👉 | Possibility to choose files or/and directories if there is a need for that |
+| 🗑 | Possiblity to remove files or/and directories if there is a need for that |
+| &#128269; | Built-in search functionality |
+| 📚 | Documented |
+| &#127968; | Out of the box support for image, audio, video and pdf files |
+| &#128640; | Extendable API; Possibility to add support for any file type |
+| &#128038; | Written in Swift |
 
 
 Images             |  Audio Files | Videos | Directories  | PDFs | Preview
