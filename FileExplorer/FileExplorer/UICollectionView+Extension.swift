@@ -42,23 +42,23 @@ extension UICollectionView {
     }
     
     func registerFooter(ofClass viewClass: AnyClass) {
-        register(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: String(describing: viewClass))
+        register(viewClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: viewClass))
     }
     
     func dequeueReusableFooter<T: UICollectionReusableView>(ofClass cellClass: AnyClass, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
     }
     
     func registerHeader(ofClass viewClass: AnyClass) {
-        register(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: String(describing: viewClass))
+        register(viewClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: viewClass))
     }
     
     func dequeueReusableHeader<T: UICollectionReusableView>(ofClass cellClass: AnyClass, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
     }
 
     func header<T: UICollectionReusableView>(for indexPath: IndexPath) -> T? {
-        return supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) as? T
+        return supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: indexPath) as? T
     }
 }
 

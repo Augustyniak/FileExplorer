@@ -44,21 +44,21 @@ final class FileViewController: UIViewController {
 
         let imageView = ImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
 
         let titleView = TitleView()
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.title = viewModel.title
-        titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
 
 
         let attributesView = AttributesView()
         attributesView.translatesAutoresizingMaskIntoConstraints = false
         attributesView.numberOfAttributes = viewModel.numberOfAttributes
-        attributesView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        attributesView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        attributesView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        attributesView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         for (index, label) in attributesView.attributeNamesColumn.labels.enumerated() {
             let attributeViewModel = viewModel.attribute(for: index)
             label.text = attributeViewModel.attributeName
@@ -150,7 +150,7 @@ final class TitleView: UIView {
         titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1.0).isActive = true
         titleLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -20.0).isActive = true
-        titleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        titleLabel.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         titleLabel.numberOfLines = 1
         titleLabel.lineBreakMode = .byTruncatingTail
 
@@ -185,7 +185,7 @@ final class TitleView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 42.0)
+        return CGSize(width: UIView.noIntrinsicMetric, height: 42.0)
     }
 }
 

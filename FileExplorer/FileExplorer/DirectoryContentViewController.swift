@@ -122,7 +122,7 @@ final class DirectoryContentViewController: UICollectionViewController {
             let selected = selectedIndexPath != nil ? true : false
             if selected
             {
-                collectionView.selectItem(at: searchIndexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.left)
+                collectionView.selectItem(at: searchIndexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.left)
             }
             else
             {
@@ -164,18 +164,18 @@ final class DirectoryContentViewController: UICollectionViewController {
             selectActionButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             deleteActionButton
-            ].flatMap { $0 }
+            ].compactMap { $0 }
     }
 
     // MARK: Actions
 
-    func handleSelectButtonTap() {
+    @objc func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in
             delegate?.directoryContentViewController(self, didChooseItems: selectedItems)
         }
     }
 
-    func handleDeleteButtonTap() {
+    @objc func handleDeleteButtonTap() {
         showLoadingIndicator()
         viewModel.chooseItems { selectedItems in
             let indexPaths = viewModel.indexPathsOfSelectedCells
@@ -203,7 +203,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         }
     }
 
-    func handleEditButtonTap() {
+    @objc func handleEditButtonTap() {
         viewModel.isEditing = !viewModel.isEditing
         delegate?.directoryContentViewController(self, didChangeEditingStatus: viewModel.isEditing)
     }
@@ -250,7 +250,7 @@ extension DirectoryContentViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableHeader(ofClass: CollectionViewHeader.self, for: indexPath) as CollectionViewHeader
             header.sortModeChangeAction = viewModel.sortModeChangeAction
             header.sortMode = viewModel.sortMode
@@ -258,7 +258,7 @@ extension DirectoryContentViewController {
                 header.layoutIfNeeded()
             }
             return header
-        } else if kind == UICollectionElementKindSectionFooter {
+        } else if kind == UICollectionView.elementKindSectionFooter {
             return collectionView.dequeueReusableFooter(ofClass: CollectionViewFooter.self, for: indexPath) as CollectionViewFooter
         } else {
             fatalError()
