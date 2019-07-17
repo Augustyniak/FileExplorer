@@ -30,6 +30,7 @@ import AVFoundation
 protocol ItemPresentationCoordinatorDelegate: class {
     func itemPresentationCoordinatorDidFinish(_ coordinator: ItemPresentationCoordinator)
     func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, didChooseItems items: [Item<Any>])
+    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>]) -> Void))
 }
 
 final class ItemPresentationCoordinator {
@@ -51,7 +52,7 @@ final class ItemPresentationCoordinator {
 
         switch item.type {
         case .file:
-            let coordinator = FileItemPresentationCoordinator(navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
+            let coordinator = FileItemPresentationCoordinator(configuration: configuration, navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
             coordinator.start(animated)
             childCoordinators.append(coordinator)
         case .directory:
@@ -69,13 +70,14 @@ final class ItemPresentationCoordinator {
 }
 
 extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDelegate {
+
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItem item: Item<Any>) {
         start(item: item, fileSpecifications: fileSpecifications, configuration: configuration, animated: true)
     }
 
     func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, didSelectItemDetails item: Item<Any>) {
         guard let navigationController = navigationController else { fatalError() }
-        let coordinator = FileItemPresentationCoordinator(navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
+        let coordinator = FileItemPresentationCoordinator(configuration: configuration, navigationController: navigationController, item: item, fileSpecifications: fileSpecifications)
         childCoordinators.append(coordinator)
         coordinator.startDetailsPreview(true)
     }
@@ -86,5 +88,10 @@ extension ItemPresentationCoordinator: DirectoryItemPresentationCoordinatorDeleg
     
     func directoryItemPresentationCoordinatorDidFinish(_ coordinator: DirectoryItemPresentationCoordinator) {
         delegate?.itemPresentationCoordinatorDidFinish(self)
+    }
+    internal func directoryItemPresentationCoordinator(_ coordinator: DirectoryItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>]) -> Void)) {
+        delegate?.itemPresentationCoordinator(self, shouldRemoveItems: items, removeItemsHandler: {(itemsToRemove) -> Void in
+            removeItemsHandler(itemsToRemove)
+        })
     }
 }

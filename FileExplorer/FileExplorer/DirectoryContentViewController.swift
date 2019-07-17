@@ -30,6 +30,7 @@ protocol DirectoryContentViewControllerDelegate: class {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItem item: Item<Any>)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItemDetails item: Item<Any>)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChooseItems items: [Item<Any>])
+    func directoryContentViewController(_ controller: DirectoryContentViewController, shouldRemoveItems: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>])->Void))
 }
 
 final class DirectoryContentViewController: UICollectionViewController {
@@ -111,6 +112,24 @@ final class DirectoryContentViewController: UICollectionViewController {
         activeNavigationItemTitle = viewModel.title
         view.isUserInteractionEnabled = viewModel.isUserInteractionEnabled
         setEditing(viewModel.isEditing, animated: true)
+        //get the selection states from the view model and syncronize them
+        let selectedCellPaths = viewModel.indexPathsOfSelectedCells
+        for i in  0...viewModel.numberOfItems(inSection: 0)
+        {
+            guard let collectionView = collectionView else { return }
+            let searchIndexPath = IndexPath(item: i, section: 0)
+            let selectedIndexPath = selectedCellPaths.index(of: searchIndexPath)
+            let selected = selectedIndexPath != nil ? true : false
+            if selected
+            {
+                collectionView.selectItem(at: searchIndexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.left)
+            }
+            else
+            {
+                collectionView.deselectItem(at: searchIndexPath, animated: false)
+            }
+        }
+
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -145,33 +164,46 @@ final class DirectoryContentViewController: UICollectionViewController {
             selectActionButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             deleteActionButton
-            ].flatMap { $0 }
+            ].compactMap { $0 }
     }
 
     // MARK: Actions
 
-    func handleSelectButtonTap() {
+    @objc func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in
             delegate?.directoryContentViewController(self, didChooseItems: selectedItems)
         }
     }
 
-    func handleDeleteButtonTap() {
+    @objc func handleDeleteButtonTap() {
         showLoadingIndicator()
-        viewModel.deleteItems(at: viewModel.indexPathsOfSelectedCells) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.hideLoadingIndicator()
-            
-            if case .error(let error) = result {
-                UIAlertController.presentAlert(for: error, in: strongSelf)
-            }
-
-            strongSelf.viewModel.isEditing = false
-            strongSelf.delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
+        viewModel.chooseItems { selectedItems in
+            let indexPaths = viewModel.indexPathsOfSelectedCells
+            delegate?.directoryContentViewController(self, shouldRemoveItems:selectedItems, removeItemsHandler:{(itemsToRemove)->Void in
+                var indexPathsToRemove = [IndexPath]()
+                for item in itemsToRemove
+                {
+                    if let index = selectedItems.index(where: { $0 == item })
+                    {
+                        indexPathsToRemove.append(indexPaths[index])
+                    }
+                }
+                self.viewModel.deleteItems(at: indexPathsToRemove) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    strongSelf.hideLoadingIndicator()
+                    
+                    if case .error(let error) = result {
+                        UIAlertController.presentAlert(for: error, in: strongSelf)
+                    }
+                    
+                    strongSelf.viewModel.isEditing = false
+                    strongSelf.delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
+                }
+            })
         }
     }
 
-    func handleEditButtonTap() {
+    @objc func handleEditButtonTap() {
         viewModel.isEditing = !viewModel.isEditing
         delegate?.directoryContentViewController(self, didChangeEditingStatus: viewModel.isEditing)
     }
@@ -218,7 +250,7 @@ extension DirectoryContentViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableHeader(ofClass: CollectionViewHeader.self, for: indexPath) as CollectionViewHeader
             header.sortModeChangeAction = viewModel.sortModeChangeAction
             header.sortMode = viewModel.sortMode
@@ -226,7 +258,7 @@ extension DirectoryContentViewController {
                 header.layoutIfNeeded()
             }
             return header
-        } else if kind == UICollectionElementKindSectionFooter {
+        } else if kind == UICollectionView.elementKindSectionFooter {
             return collectionView.dequeueReusableFooter(ofClass: CollectionViewFooter.self, for: indexPath) as CollectionViewFooter
         } else {
             fatalError()

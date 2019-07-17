@@ -31,11 +31,13 @@ struct Configuration {
 }
 
 struct ActionsConfiguration {
+    var canShareFiles: Bool = false
     var canRemoveFiles: Bool = false
     var canRemoveDirectories: Bool = false
     var canChooseFiles: Bool = false
     var canChooseDirectories: Bool = false
     var allowsMultipleSelection: Bool = false
+    var directSelection: Bool = false
 }
 
 struct FilteringConfiguration {
@@ -65,7 +67,7 @@ public enum Filter {
     func matchesItem(withLastPathComponent lastPathComponent: String, type: ItemType, modificationDate: Date) -> Bool {
         switch self {
         case .`extension`(let `extension`):
-            return `extension` == (lastPathComponent as NSString).pathExtension
+            return `extension`.lowercased() == (lastPathComponent as NSString).pathExtension.lowercased()
         case .type(let t):
             return t == type
         case .lastPathComponent(let lastPathComp):

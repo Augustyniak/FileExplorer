@@ -58,6 +58,7 @@ protocol DirectoryViewControllerDelegate: class {
     func directoryViewController(_ controller: DirectoryViewController, didSelectItem item: Item<Any>)
     func directoryViewController(_ controller: DirectoryViewController, didSelectItemDetails item: Item<Any>)
     func directoryViewController(_ controller: DirectoryViewController, didChooseItems items: [Item<Any>])
+    func directoryViewController(_ controller: DirectoryViewController, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>])->Void))
     func directoryViewControllerDidFinish(_ controller: DirectoryViewController)
 }
 
@@ -104,7 +105,7 @@ final class DirectoryViewController: UIViewController {
         addContentChildViewController(directoryContentViewController, insets: UIEdgeInsets(top: searchController.searchBar.bounds.height, left: 0.0, bottom: 0.0, right: 0.0))
         navigationItem.rightBarButtonItem = directoryContentViewController.navigationItem.rightBarButtonItem
         navigationItem.title = directoryContentViewController.navigationItem.title
-        view.sendSubview(toBack: directoryContentViewController.view)
+        view.sendSubviewToBack(directoryContentViewController.view)
         setUpLeftBarButtonItem()
     }
 
@@ -134,7 +135,7 @@ final class DirectoryViewController: UIViewController {
     
     // MARK: Actions
 
-    func handleFinishButtonTap() {
+    @objc func handleFinishButtonTap() {
         delegate?.directoryViewControllerDidFinish(self)
     }
 }
@@ -147,6 +148,10 @@ extension DirectoryViewController: UISearchBarDelegate {
 }
 
 extension DirectoryViewController: DirectoryContentViewControllerDelegate {
+    internal func directoryContentViewController(_ controller: DirectoryContentViewController, shouldRemoveItems: [Item<Any>], removeItemsHandler: @escaping (([Item<Any>]) -> Void)) {
+        delegate?.directoryViewController(self, shouldRemoveItems: shouldRemoveItems, removeItemsHandler:removeItemsHandler)
+    }
+
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
         searchController.searchBar.isEnabled = !isEditing
     }

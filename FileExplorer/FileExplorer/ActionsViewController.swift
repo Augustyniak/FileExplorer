@@ -35,8 +35,9 @@ final class ActionsViewController: UIViewController {
 
     private let toolbar = UIToolbar()
     private let contentViewController: UIViewController
-
-    init(contentViewController: UIViewController) {
+    fileprivate let configuration: Configuration
+    init(configuration: Configuration, contentViewController: UIViewController) {
+        self.configuration = configuration
         self.contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
     }
@@ -57,11 +58,19 @@ final class ActionsViewController: UIViewController {
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.sizeToFit()
         toolbar.pinToBottom(of: view)
-        toolbar.items = [
-            UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(handleShareButtonTap)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrashButtonTap))
-        ]
+        //always add the flexibleSpace
+        toolbar.items = [UIBarButtonItem]()
+        toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil))
+        if configuration.actionsConfiguration.canShareFiles
+        {
+            toolbar.items?.insert(UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(handleShareButtonTap)), at: 0)
+        }
+        // TODO: activate the following 'trash button' again and
+        // implement functionality to check if item can be deleted or not
+//        if configuration.actionsConfiguration.canRemoveFiles
+//        {
+//            toolbar.items?.append(UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrashButtonTap)))
+//        }
 
         addContentChildViewController(contentViewController, insets: UIEdgeInsets(top: 0, left: 0, bottom: toolbar.bounds.height, right: 0))
         navigationItem.title = contentViewController.navigationItem.title

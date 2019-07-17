@@ -76,7 +76,7 @@ final class DirectoryContentViewModel {
 
     var isEditActionHidden: Bool {
         let actionsConfiguration = configuration.actionsConfiguration
-        return !actionsConfiguration.canChooseDirectories && !actionsConfiguration.canChooseFiles && !actionsConfiguration.canRemoveDirectories && !actionsConfiguration.canRemoveFiles
+        return !actionsConfiguration.canChooseDirectories && !actionsConfiguration.canChooseFiles && !actionsConfiguration.canRemoveDirectories && !actionsConfiguration.canRemoveFiles || (actionsConfiguration.directSelection)
     }
     
     var isEditActionEnabled: Bool {
@@ -148,9 +148,10 @@ final class DirectoryContentViewModel {
         }
 
         let numberOfSelectedItemsIsAllowed = configuration.actionsConfiguration.allowsMultipleSelection ? selectedItems.count > 0 : selectedItems.count == 1
+
         return !fileService.isDeletionInProgress && selectedItemsAreAllowedToBeSelected && numberOfSelectedItemsIsAllowed
     }
-
+    
     var selectActionTitle: String {
         return NSLocalizedString("Choose", comment: "")
     }
@@ -162,7 +163,7 @@ final class DirectoryContentViewModel {
     private let configuration: Configuration
     private let fileSpecifications: FileSpecifications
     private let fileService: FileService
-
+    
     init(item: LoadedDirectoryItem, fileSpecifications: FileSpecifications, configuration: Configuration, fileService: FileService = LocalStorageFileService()) {
         self.url = item.url
         self.fileSpecifications = fileSpecifications
@@ -174,14 +175,26 @@ final class DirectoryContentViewModel {
         self.allItems = item.resource.filter {  filteringConfiguration.fileFilters.count == 0 || filteringConfiguration.fileFilters.matchesItem($0) }
         self.allItems = self.allItems.filter { filteringConfiguration.ignoredFileFilters.count == 0 || !filteringConfiguration.ignoredFileFilters.matchesItem($0) }
         self.itemsToDisplay = DirectoryContentViewModel.itemsWithAppliedFilterAndSortCriterias(searchQuery: "", sortMode: sortMode, items: self.allItems)
-
+        
+        //activate editing mode directly if direct selection with single selection has been set
+        if configuration.actionsConfiguration.directSelection
+        {
+            isEditing = true
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(handleItemsDeletedNotification(_:)), name: Notification.Name.ItemsDeleted, object: nil)
     }
 
     func select(at indexPath: IndexPath) {
         let item = self.item(for: indexPath)
         if isEditing {
-            selectedItems.append(item)
+            if(configuration.actionsConfiguration.allowsMultipleSelection)
+            {
+                selectedItems.append(item)
+            }
+            else{
+                selectedItems.removeAll()
+                selectedItems.append(item)
+            }
         } else {
             delegate?.directoryViewModel(self, didSelectItem: item)
         }
@@ -201,7 +214,7 @@ final class DirectoryContentViewModel {
     }
 
     func deleteItems(at indexPaths: [IndexPath], completionBlock: @escaping (Result<Void>) -> Void) {
-        let items = indexPaths.flatMap { item(for: $0) }
+        let items = indexPaths.compactMap { item(for: $0) }
         fileService.delete(items: items) { result, removedItems, itemsNotRemovedDueToFailure in
             completionBlock(result)
             self.delegate?.directoryViewModelDidChange(self)
@@ -233,7 +246,7 @@ final class DirectoryContentViewModel {
     }
     
     private func index(for item: Item<Any>) -> IndexPath {
-        for (i, iterItem) in allItems.enumerated() {
+        for (i, iterItem) in itemsToDisplay.enumerated() {
             if iterItem == item {
                 return IndexPath(item: i, section: 0)
             }

@@ -40,6 +40,9 @@ public protocol FileExplorerViewControllerDelegate: class {
     ///   - controller: The controller object managing the file explorer interface.
     ///   - urls: URLs choosen by users.
     func fileExplorerViewController(_ controller: FileExplorerViewController, didChooseURLs urls: [URL])
+    //the handler will return the urls which can be removed
+    //NOTE: the result URL array can be empty
+    func fileExplorerViewController(controller: FileExplorerViewController, shouldRemoveURLs urls: [URL], handler: @escaping (([URL]) -> Void))
 }
 
 /// The FileExplorerViewController class manages customizable for displaying, removing and choosing files and directories stored in local storage of the device in your app. A file explorer view controller manages user interactions and delivers the results of those interactions to a delegate object.
@@ -47,6 +50,9 @@ public final class FileExplorerViewController: UIViewController {
 
     /// The URL of directory which is initialy presented by file explorer view controller.
     public var initialDirectoryURL: URL = URL.documentDirectory
+
+    /// A Boolean value indicating whether the user is allowed to remove files.
+    public var canShareFiles: Bool = true
 
     /// A Boolean value indicating whether the user is allowed to remove files.
     public var canRemoveFiles: Bool = true
@@ -62,6 +68,8 @@ public final class FileExplorerViewController: UIViewController {
 
     /// A Boolean value indicating whether multiple files and/or directories can be choosen at a time.
     public var allowsMultipleSelection: Bool = true
+    /// if directSelection is enabled -> enable editing mode directly
+    public var directSelection: Bool = false
 
     /// Filters that determine which files are displayed by file explorer view controller.
     ///
@@ -113,11 +121,13 @@ public final class FileExplorerViewController: UIViewController {
         super.viewWillAppear(animated)
         let fileSpecifications = FileSpecifications(providers: fileSpecificationProviders)
 
-        let actionsConfiguration = ActionsConfiguration(canRemoveFiles: canRemoveFiles,
+        let actionsConfiguration = ActionsConfiguration(canShareFiles: canShareFiles,
+                                                        canRemoveFiles: canRemoveFiles,
                                                         canRemoveDirectories: canRemoveDirectories,
                                                         canChooseFiles: canChooseFiles,
                                                         canChooseDirectories: canChooseDirectories,
-                                                        allowsMultipleSelection: allowsMultipleSelection)
+                                                        allowsMultipleSelection: allowsMultipleSelection,
+                                                        directSelection: directSelection)
         let filteringConfiguration = FilteringConfiguration(fileFilters: fileFilters, ignoredFileFilters: ignoredFileFilters)
         let configuration = Configuration(actionsConfiguration: actionsConfiguration, filteringConfiguration: filteringConfiguration)
 
@@ -144,5 +154,25 @@ extension FileExplorerViewController: ItemPresentationCoordinatorDelegate {
         dismiss(animated: true, completion: nil)
         let urls = items.map { $0.url }
         delegate?.fileExplorerViewController(self, didChooseURLs: urls)
+    }
+    
+    func itemPresentationCoordinator(_ coordinator: ItemPresentationCoordinator, shouldRemoveItems items: [Item<Any>], removeItemsHandler: @escaping (_ removeItems:[Item<Any>]) -> Void)
+    {
+        let urls = items.map { $0.url }
+        delegate?.fileExplorerViewController(controller: self, shouldRemoveURLs: urls, handler: { (filesToRemove) -> Void in
+            var resultArray = [Item<Any>] ()
+            for fileUrl in filesToRemove
+            {
+                for item in items
+                {
+                    if item.url == fileUrl
+                    {
+                        resultArray.append(item)
+                    }
+                }
+            }
+            removeItemsHandler(resultArray)
+        })
+
     }
 }
