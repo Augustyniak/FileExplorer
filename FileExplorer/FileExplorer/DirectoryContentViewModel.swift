@@ -201,7 +201,7 @@ final class DirectoryContentViewModel {
     }
 
     func deleteItems(at indexPaths: [IndexPath], completionBlock: @escaping (Result<Void>) -> Void) {
-        let items = indexPaths.flatMap { item(for: $0) }
+        let items = indexPaths.compactMap { item(for: $0) }
         fileService.delete(items: items) { result, removedItems, itemsNotRemovedDueToFailure in
             completionBlock(result)
             self.delegate?.directoryViewModelDidChange(self)
