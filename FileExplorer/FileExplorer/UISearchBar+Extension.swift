@@ -28,7 +28,7 @@ import Foundation
 extension UISearchBar {
     @nonobjc static var kDimmingView = "dimmingView"
 
-    var dimmingView: UIView? {
+    @objc var dimmingView: UIView? {
         get {
             return objc_getAssociatedObject(self, &UISearchBar.kDimmingView) as? UIView
         }
@@ -37,7 +37,7 @@ extension UISearchBar {
         }
     }
 
-    var isEnabled: Bool {
+    @objc var isEnabled: Bool {
         get {
             return dimmingView != nil
         }

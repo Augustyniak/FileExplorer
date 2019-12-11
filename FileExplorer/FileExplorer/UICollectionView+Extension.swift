@@ -26,7 +26,7 @@
 import Foundation
 
 extension UICollectionView {
-    func registerCell(ofClass cellClass: AnyClass) {
+    @objc func registerCell(ofClass cellClass: AnyClass) {
         register(cellClass, forCellWithReuseIdentifier: String(describing: cellClass))
     }
     
@@ -41,24 +41,24 @@ extension UICollectionView {
         return cell
     }
     
-    func registerFooter(ofClass viewClass: AnyClass) {
-        register(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: String(describing: viewClass))
+    @objc func registerFooter(ofClass viewClass: AnyClass) {
+        register(viewClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: viewClass))
     }
     
     func dequeueReusableFooter<T: UICollectionReusableView>(ofClass cellClass: AnyClass, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
     }
     
-    func registerHeader(ofClass viewClass: AnyClass) {
-        register(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: String(describing: viewClass))
+    @objc func registerHeader(ofClass viewClass: AnyClass) {
+        register(viewClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: viewClass))
     }
     
     func dequeueReusableHeader<T: UICollectionReusableView>(ofClass cellClass: AnyClass, for indexPath: IndexPath) -> T {
-        return dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
+        return dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: String(describing: cellClass), for: indexPath) as! T
     }
 
     func header<T: UICollectionReusableView>(for indexPath: IndexPath) -> T? {
-        return supplementaryView(forElementKind: UICollectionElementKindSectionHeader, at: indexPath) as? T
+        return supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: indexPath) as? T
     }
 }
 
@@ -67,7 +67,7 @@ extension UICollectionView {
     @nonobjc static var kToolbarKey = "toolbar"
     @nonobjc static var kToolbarBottomConstraint = "bottomConstraint"
 
-    var isEditing: Bool {
+    @objc var isEditing: Bool {
         get {
             return (objc_getAssociatedObject(self, &UICollectionView.kIsEditingKey) as? NSNumber)?.boolValue ?? false
         }
@@ -76,7 +76,7 @@ extension UICollectionView {
         }
     }
     
-    var toolbar: UIToolbar? {
+    @objc var toolbar: UIToolbar? {
         get {
             return (objc_getAssociatedObject(self, &UICollectionView.kToolbarKey)) as? UIToolbar
         }
@@ -94,7 +94,7 @@ extension UICollectionView {
         }
     }
     
-    func setEditing(_ editing: Bool, animated: Bool) {
+    @objc func setEditing(_ editing: Bool, animated: Bool) {
         for cell in visibleCells {
             guard let cell = cell as? Editable else {
                 continue

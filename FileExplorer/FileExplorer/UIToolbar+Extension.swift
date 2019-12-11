@@ -26,7 +26,7 @@
 import Foundation
 
 extension UIToolbar {
-    static func makeToolbar() -> UIToolbar {
+    @objc static func makeToolbar() -> UIToolbar {
         let toolbar = UIToolbar()
         toolbar.translatesAutoresizingMaskIntoConstraints = false
         toolbar.sizeToFit()

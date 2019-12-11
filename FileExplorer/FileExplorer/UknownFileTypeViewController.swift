@@ -26,10 +26,10 @@
 import Foundation
 
 final class UknownFileTypeViewController: UIViewController {
-    let fileName: String
-    var imageView: UIImageView = UIImageView()
+    @objc let fileName: String
+    @objc var imageView: UIImageView = UIImageView()
     
-    init(fileName: String) {
+    @objc init(fileName: String) {
         self.fileName = fileName
         super.init(nibName: nil, bundle: nil)
     }

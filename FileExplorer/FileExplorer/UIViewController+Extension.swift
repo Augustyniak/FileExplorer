@@ -27,7 +27,7 @@ import Foundation
 
 extension UIViewController {
     @nonobjc static var kActivityIndicatorKey = "fer_activityIndicatorView"
-    var activityIndicatorView: UIActivityIndicatorView? {
+    @objc var activityIndicatorView: UIActivityIndicatorView? {
         get {
             return objc_getAssociatedObject(self, &UIViewController.kActivityIndicatorKey) as? UIActivityIndicatorView
         }
@@ -36,10 +36,10 @@ extension UIViewController {
         }
     }
     
-    func showLoadingIndicator() {
+    @objc func showLoadingIndicator() {
         guard self.activityIndicatorView == nil else { return }
         
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
         activityIndicatorView.color = .gray
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
@@ -49,7 +49,7 @@ extension UIViewController {
         activityIndicatorView.startAnimating()
     }
     
-    func hideLoadingIndicator() {
+    @objc func hideLoadingIndicator() {
         self.activityIndicatorView?.stopAnimating()
         UIView.animate(withDuration: 0.2, animations: {
             self.activityIndicatorView?.alpha = 0.0
@@ -61,7 +61,7 @@ extension UIViewController {
 }
 
 extension UIViewController {
-    var activeRightBarButtonItem: UIBarButtonItem? {
+    @objc var activeRightBarButtonItem: UIBarButtonItem? {
         get {
             return activeNavigationItem?.rightBarButtonItem
         }
@@ -72,7 +72,7 @@ extension UIViewController {
         }
     }
     
-    var activeNavigationItemTitle: String? {
+    @objc var activeNavigationItemTitle: String? {
         get {
             return activeNavigationItem?.title
         }
@@ -82,7 +82,7 @@ extension UIViewController {
         }
     }
     
-    var activeNavigationItem: UINavigationItem? {
+    @objc var activeNavigationItem: UINavigationItem? {
         guard let viewController = navigationController?.topViewController else { return nil }
         
         if viewController.navigationItem === navigationItem {
@@ -94,11 +94,11 @@ extension UIViewController {
 }
 
 extension UIViewController {
-    func addContentChildViewController(_ content: UIViewController, insets: UIEdgeInsets = UIEdgeInsets.zero) {
+    @objc func addContentChildViewController(_ content: UIViewController, insets: UIEdgeInsets = UIEdgeInsets.zero) {
         view.addSubview(content.view)
-        addChildViewController(content)
-        content.view.frame = UIEdgeInsetsInsetRect(view.bounds, insets)
+        addChild(content)
+        content.view.frame = view.bounds.inset(by: insets)
         content.view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        content.didMove(toParentViewController: self)
+        content.didMove(toParent: self)
     }
 }

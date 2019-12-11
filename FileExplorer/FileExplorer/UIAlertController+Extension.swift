@@ -26,7 +26,7 @@
 import Foundation
 
 extension UIAlertController {
-    static func presentAlert(for error: Error, in viewController: UIViewController) {
+    @objc static func presentAlert(for error: Error, in viewController: UIViewController) {
         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
         viewController.present(alertController, animated: true, completion: nil)

@@ -97,7 +97,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         syncWithViewModel(false)
     }
 
-    func syncWithViewModel(_ animated: Bool) {
+    @objc func syncWithViewModel(_ animated: Bool) {
         if let items = toolbar.items {
             for barButtonItem in items {
                 barButtonItem.isEnabled = viewModel.isDeleteActionEnabled
@@ -136,7 +136,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         viewModel.isEditing = editing
     }
 
-    func syncToolbarWithViewModel() {
+    @objc func syncToolbarWithViewModel() {
         let selectActionButton = !viewModel.isSelectActionHidden ? UIBarButtonItem(title: viewModel.selectActionTitle, style: .plain, target: self, action: #selector(handleSelectButtonTap)) : nil
         selectActionButton?.isEnabled = viewModel.isSelectActionEnabled
         let deleteActionButton = !viewModel.isDeleteActionHidden ? UIBarButtonItem(title: viewModel.deleteActionTitle, style: .plain, target: self, action: #selector(handleDeleteButtonTap)) : nil
@@ -145,18 +145,18 @@ final class DirectoryContentViewController: UICollectionViewController {
             selectActionButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             deleteActionButton
-            ].flatMap { $0 }
+            ].compactMap { $0 }
     }
 
     // MARK: Actions
 
-    func handleSelectButtonTap() {
+    @objc func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in
             delegate?.directoryContentViewController(self, didChooseItems: selectedItems)
         }
     }
 
-    func handleDeleteButtonTap() {
+    @objc func handleDeleteButtonTap() {
         showLoadingIndicator()
         viewModel.deleteItems(at: viewModel.indexPathsOfSelectedCells) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -171,7 +171,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         }
     }
 
-    func handleEditButtonTap() {
+    @objc func handleEditButtonTap() {
         viewModel.isEditing = !viewModel.isEditing
         delegate?.directoryContentViewController(self, didChangeEditingStatus: viewModel.isEditing)
     }
@@ -218,7 +218,7 @@ extension DirectoryContentViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableHeader(ofClass: CollectionViewHeader.self, for: indexPath) as CollectionViewHeader
             header.sortModeChangeAction = viewModel.sortModeChangeAction
             header.sortMode = viewModel.sortMode
@@ -226,7 +226,7 @@ extension DirectoryContentViewController {
                 header.layoutIfNeeded()
             }
             return header
-        } else if kind == UICollectionElementKindSectionFooter {
+        } else if kind == UICollectionView.elementKindSectionFooter {
             return collectionView.dequeueReusableFooter(ofClass: CollectionViewFooter.self, for: indexPath) as CollectionViewFooter
         } else {
             fatalError()

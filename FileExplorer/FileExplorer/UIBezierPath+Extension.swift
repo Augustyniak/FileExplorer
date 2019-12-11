@@ -26,7 +26,7 @@
 import UIKit
 
 extension UIBezierPath{
-    static func makeCheckmarkPath(with frame: CGRect) -> UIBezierPath {
+    @objc static func makeCheckmarkPath(with frame: CGRect) -> UIBezierPath {
         let bezierPath = UIBezierPath()
         bezierPath.move(to: CGPoint(x: frame.minX + 0.07692 * frame.width, y: frame.minY + 0.57143 * frame.height))
         bezierPath.addLine(to: CGPoint(x: frame.minX + 0.30769 * frame.width, y: frame.minY + 0.85714 * frame.height))
