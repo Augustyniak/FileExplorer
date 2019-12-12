@@ -36,7 +36,7 @@ final class ActionsViewController: UIViewController {
     private let toolbar = UIToolbar()
     private let contentViewController: UIViewController
 
-    init(contentViewController: UIViewController) {
+    @objc init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         super.init(nibName: nil, bundle: nil)
     }

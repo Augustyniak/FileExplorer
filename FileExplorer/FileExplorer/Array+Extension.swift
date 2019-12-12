@@ -28,7 +28,7 @@ import Foundation
 extension Array where Element: Equatable {
     @discardableResult
     mutating func remove(_ item: Element) -> Bool {
-        let index = self.index() { $0 == item }
+        let index = self.firstIndex() { $0 == item }
         if let index = index {
             remove(at: index)
             return true

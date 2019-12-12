@@ -26,7 +26,7 @@
 import UIKit
 
 final class CheckmarkButton: UIButton {
-    let shapeLayer: CAShapeLayer
+    @objc let shapeLayer: CAShapeLayer
 
     private enum KeyPath {
         static let strokeEnd = "strokeEnd"
@@ -78,7 +78,7 @@ final class CheckmarkButton: UIButton {
         }
     }
 
-    var borderWidth: CGFloat = 1.0 {
+    @objc var borderWidth: CGFloat = 1.0 {
         didSet {
             setNeedsLayout()
         }
@@ -93,7 +93,7 @@ final class CheckmarkButton: UIButton {
         }
     }
     
-    func setSelected(_ selected: Bool, animated: Bool) {
+    @objc func setSelected(_ selected: Bool, animated: Bool) {
         if isSelected == selected {
             return
         }
@@ -126,7 +126,7 @@ final class CheckmarkButton: UIButton {
 }
 
 extension CALayer {
-    @discardableResult
+    @objc @discardableResult
     func animate(keyPath: String, from fromValue: AnyObject? = nil, to toValue: AnyObject, duration: Double = 0.2) -> CAAnimation? {
         if fromValue === toValue {
             return nil

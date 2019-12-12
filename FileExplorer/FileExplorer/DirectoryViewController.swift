@@ -104,11 +104,11 @@ final class DirectoryViewController: UIViewController {
         addContentChildViewController(directoryContentViewController, insets: UIEdgeInsets(top: searchController.searchBar.bounds.height, left: 0.0, bottom: 0.0, right: 0.0))
         navigationItem.rightBarButtonItem = directoryContentViewController.navigationItem.rightBarButtonItem
         navigationItem.title = directoryContentViewController.navigationItem.title
-        view.sendSubview(toBack: directoryContentViewController.view)
+        view.sendSubviewToBack(directoryContentViewController.view)
         setUpLeftBarButtonItem()
     }
 
-    func setUpSearchBarController() {
+    @objc func setUpSearchBarController() {
         let searchBar = searchController.searchBar
         searchBar.sizeToFit()
         searchBar.autoresizingMask = [.flexibleWidth]
@@ -117,13 +117,13 @@ final class DirectoryViewController: UIViewController {
         navigationItem.rightBarButtonItems = directoryContentViewController.navigationItem.rightBarButtonItems
     }
 
-    func setUpLeftBarButtonItem() {
+    @objc func setUpLeftBarButtonItem() {
         if !viewModel.finishButtonHidden {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: viewModel.finishButtonTitle, style: .plain, target: self, action: #selector(handleFinishButtonTap))
         }
     }
 
-    var isSearchControllerActive: Bool {
+    @objc var isSearchControllerActive: Bool {
         get {
             return searchController.isActive
         }
@@ -134,7 +134,7 @@ final class DirectoryViewController: UIViewController {
     
     // MARK: Actions
 
-    func handleFinishButtonTap() {
+    @objc func handleFinishButtonTap() {
         delegate?.directoryViewControllerDidFinish(self)
     }
 }
@@ -147,7 +147,7 @@ extension DirectoryViewController: UISearchBarDelegate {
 }
 
 extension DirectoryViewController: DirectoryContentViewControllerDelegate {
-    func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
+    @objc func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
         searchController.searchBar.isEnabled = !isEditing
     }
 

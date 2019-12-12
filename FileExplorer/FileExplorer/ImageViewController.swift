@@ -31,7 +31,7 @@ final class ImageViewController: UIViewController {
 
     private let image: UIImage
 
-    init(image: UIImage) {
+    @objc init(image: UIImage) {
         self.image = image
         super.init(nibName: nil, bundle: nil)
     }

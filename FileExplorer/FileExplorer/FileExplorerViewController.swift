@@ -46,22 +46,22 @@ public protocol FileExplorerViewControllerDelegate: class {
 public final class FileExplorerViewController: UIViewController {
 
     /// The URL of directory which is initialy presented by file explorer view controller.
-    public var initialDirectoryURL: URL = URL.documentDirectory
+    @objc public var initialDirectoryURL: URL = URL.documentDirectory
 
     /// A Boolean value indicating whether the user is allowed to remove files.
-    public var canRemoveFiles: Bool = true
+    @objc public var canRemoveFiles: Bool = true
 
     /// A Boolean value indicating whether the user is allowed to remove directories.
-    public var canRemoveDirectories: Bool = true
+    @objc public var canRemoveDirectories: Bool = true
 
     /// A Boolean value indicating whether the user is allowed to choose files.
-    public var canChooseFiles: Bool = true
+    @objc public var canChooseFiles: Bool = true
 
     /// A Boolean value indicating whether the user is allowed to choose directories.
-    public var canChooseDirectories: Bool = false
+    @objc public var canChooseDirectories: Bool = false
 
     /// A Boolean value indicating whether multiple files and/or directories can be choosen at a time.
-    public var allowsMultipleSelection: Bool = true
+    @objc public var allowsMultipleSelection: Bool = true
 
     /// Filters that determine which files are displayed by file explorer view controller.
     ///

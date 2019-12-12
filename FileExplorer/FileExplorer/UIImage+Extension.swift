@@ -26,13 +26,13 @@
 import Foundation
 
 extension UIImage {
-    static func make(for name: String, bundle: Bundle = Bundle(for: ItemCell.self)) -> UIImage? {
+    @objc static func make(for name: String, bundle: Bundle = Bundle(for: ItemCell.self)) -> UIImage? {
         return UIImage(named: name, in: bundle, compatibleWith: nil)
     }
 }
 
 extension UIImage {
-    static func makeImage(withColor color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+    @objc static func makeImage(withColor color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
         UIGraphicsBeginImageContext(size);
         guard let context = UIGraphicsGetCurrentContext() else { fatalError() }
         context.setFillColor(color.cgColor)

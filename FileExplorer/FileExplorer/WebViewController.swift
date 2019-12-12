@@ -27,9 +27,9 @@ import Foundation
 import WebKit
 
 final class WebViewController: UIViewController {
-    let url: URL
+    @objc let url: URL
 
-    init(url: URL) {
+    @objc init(url: URL) {
         self.url = url
         super.init(nibName: nil, bundle: nil)
     }

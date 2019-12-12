@@ -42,7 +42,7 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: FileExplorerViewControllerDelegate {
-    public func fileExplorerViewController(_ controller: FileExplorerViewController, didChooseURLs urls: [URL]) {
+    @objc public func fileExplorerViewController(_ controller: FileExplorerViewController, didChooseURLs urls: [URL]) {
         var message = ""
         for url in urls {
             message += "\(url.lastPathComponent)"
@@ -56,7 +56,7 @@ extension ViewController: FileExplorerViewControllerDelegate {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    public func fileExplorerViewControllerDidFinish(_ controller: FileExplorerViewController) {
+    @objc public func fileExplorerViewControllerDidFinish(_ controller: FileExplorerViewController) {
         
     }
 }

@@ -1,16 +1,16 @@
 PODS:
-  - FileExplorer (1.0.3)
+  - FileExplorer (1.0.4)
 
 DEPENDENCIES:
   - FileExplorer (from `./../FileExplorer.podspec.json`)
 
 EXTERNAL SOURCES:
   FileExplorer:
-    :path: ./../FileExplorer.podspec.json
+    :path: "./../FileExplorer.podspec.json"
 
 SPEC CHECKSUMS:
-  FileExplorer: de421e3b3e07b9cf584264efd5e19f5cdb9a9991
+  FileExplorer: 9869dc386f080fa7c05083370b07ec0c8a4ced3f
 
 PODFILE CHECKSUM: f09ca52ba3e673398c656e083a29129ede27a7d7
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.8.4

@@ -30,18 +30,18 @@ import FileExplorer
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         let directoryURL = URL.documentDirectory
         let audioURL = Bundle.main.url(forResource: "audio", withExtension: "mp3")!
         let videoURL = Bundle.main.url(forResource: "video", withExtension: "mp4")!
         let pdfURL = Bundle.main.url(forResource: "pdf", withExtension: "pdf")!
         let image = UIImage(named: "image.jpg")!
-        let imageData = UIImagePNGRepresentation(image)!
+        let imageData = image.pngData()!
 
 
         let firstDirectoryURL = directoryURL.appendingPathComponent("Directory")
-        try? FileManager.default.createDirectory(at: firstDirectoryURL, withIntermediateDirectories: true, attributes: [String: Any]())
+        try? FileManager.default.createDirectory(at: firstDirectoryURL, withIntermediateDirectories: true, attributes: convertToOptionalFileAttributeKeyDictionary([String: Any]()))
 
         let items = [
             (audioURL, "audio.mp3"),
@@ -57,11 +57,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try? imageData.write(to: imageURL)
 
         let subdirectoryURL = firstDirectoryURL.appendingPathComponent("Empty Directory")
-        try? FileManager.default.createDirectory(at: subdirectoryURL, withIntermediateDirectories: true, attributes: [String: Any]())
+        try? FileManager.default.createDirectory(at: subdirectoryURL, withIntermediateDirectories: true, attributes: convertToOptionalFileAttributeKeyDictionary([String: Any]()))
 
         let secondDirectoryURL = directoryURL.appendingPathComponent("Empty Directory")
-        try? FileManager.default.createDirectory(at: secondDirectoryURL, withIntermediateDirectories: true, attributes: [String: Any]())
+        try? FileManager.default.createDirectory(at: secondDirectoryURL, withIntermediateDirectories: true, attributes: convertToOptionalFileAttributeKeyDictionary([String: Any]()))
 
         return true
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalFileAttributeKeyDictionary(_ input: [String: Any]?) -> [FileAttributeKey: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (FileAttributeKey(rawValue: key), value)})
 }

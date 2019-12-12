@@ -35,7 +35,7 @@ final class ErrorViewController: UIViewController {
     private let errorDescription: String
     private let finishButtonHidden: Bool
 
-    init(errorDescription: String, finishButtonHidden: Bool) {
+    @objc init(errorDescription: String, finishButtonHidden: Bool) {
         self.errorDescription = errorDescription
         self.finishButtonHidden = finishButtonHidden
         super.init(nibName: nil, bundle: nil)
@@ -64,7 +64,7 @@ final class ErrorViewController: UIViewController {
 
     // MARK: Actions
 
-    func handleFinishButtonTap() {
+    @objc func handleFinishButtonTap() {
         delegate?.errorViewControllerDidFinish(self)
     }
 }

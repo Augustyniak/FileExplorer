@@ -1,6 +1,6 @@
 {
   "name": "FileExplorer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "summary": "FileExplorer is a powerful iOS file browser with the possiblity to choose and remove files and/or directories",
   "homepage": "https://github.com/Augustyniak/FileExplorer",
   "screenshots": "https://raw.github.com/Augustyniak/FileExplorer/master/Resources/Directories.gif",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/Augustyniak/FileExplorer.git",
-    "tag": "v1.0.3"
+    "tag": "v1.0.4"
   },
   "platforms": {
     "ios": "9.0"

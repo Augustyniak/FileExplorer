@@ -27,7 +27,7 @@ import Foundation
 
 
 extension UIView {
-    @discardableResult
+    @objc @discardableResult
     func pinToBottom(of view: UIView) -> NSLayoutConstraint {
         let constraint = bottomAnchor.constraint(equalTo: view.bottomAnchor)
         constraint.isActive = true
@@ -37,7 +37,7 @@ extension UIView {
         return constraint
     }
 
-    func edges(equalTo view: UIView, insets: UIEdgeInsets = UIEdgeInsets.zero) {
+    @objc func edges(equalTo view: UIView, insets: UIEdgeInsets = UIEdgeInsets.zero) {
         leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets.left).isActive = true
         trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right).isActive = true
         topAnchor.constraint(equalTo: view.topAnchor, constant: insets.top).isActive = true
