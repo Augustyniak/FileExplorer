@@ -99,7 +99,7 @@ final class DefaultFileSpecificationProvider: FileSpecificationProvider {
 /// Class describing video file type. It's capable of generating thumbnails for video files and provides view controller which allows for playback of video files.
 public class VideoSpecificationProvider: FileSpecificationProvider {
     public class var extensions: [String] {
-        return ["mp4", "avi"]
+        return ["mp4", "avi", "mkv", "mov"]
     }
 
     public class func thumbnail(forItemAt url: URL, with size: CGSize) -> UIImage? {
