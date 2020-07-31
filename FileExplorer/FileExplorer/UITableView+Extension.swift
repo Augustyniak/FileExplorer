@@ -38,7 +38,7 @@ extension UITableView {
         return cell
     }
     
-    func makeCell(with style: UITableViewCellStyle) -> UITableViewCell {
+    func makeCell(with style: UITableViewCell.CellStyle) -> UITableViewCell {
         return UITableViewCell(style: style, reuseIdentifier: String(describing: UITableViewCell.self))
     }
 }

@@ -66,7 +66,6 @@ final class DirectoryItemPresentationCoordinator {
                 return directoryViewController
             }
             navigationController?.pushViewController(viewController, animated: animated)
-
         } else {
             let viewController = ErrorViewController(errorDescription: "URL is incorrect.", finishButtonHidden: finishButtonHidden)
             viewController.delegate = self

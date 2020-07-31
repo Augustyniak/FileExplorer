@@ -64,7 +64,7 @@ final class ErrorViewController: UIViewController {
 
     // MARK: Actions
 
-    func handleFinishButtonTap() {
+    @objc func handleFinishButtonTap() {
         delegate?.errorViewControllerDidFinish(self)
     }
 }

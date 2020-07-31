@@ -74,6 +74,10 @@ final class ImageViewController: UIViewController {
         }
         scrollView.contentInset = UIEdgeInsets(top: vertical, left: horizontal, bottom: vertical, right: horizontal)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
 }
 
 extension ImageViewController: UIScrollViewDelegate {

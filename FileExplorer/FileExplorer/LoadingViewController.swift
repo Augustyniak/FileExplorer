@@ -61,8 +61,13 @@ final class LoadingViewController<T>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)//.white
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
+    
 }
 
 extension LoadingViewController {

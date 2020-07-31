@@ -43,6 +43,6 @@ extension URL {
     }
     
     func makeStandarizedFirstCharacterOfLastPathComponent() -> Character? {
-        return makeStandarizedLastPathComponent().localizedUppercase.characters.first
+        return makeStandarizedLastPathComponent().localizedUppercase.first
     }
 }

@@ -25,6 +25,24 @@
 
 import Foundation
 
+extension UIColor {
+
+   public class func dynamicColor(light: UIColor, dark: UIColor) -> UIColor {
+      if #available(iOS 13.0, *) {
+         return UIColor {
+            switch $0.userInterfaceStyle {
+            case .dark:
+               return dark
+            default:
+               return light
+            }
+         }
+      } else {
+         return light
+      }
+   }
+}
+
 final class FileViewController: UIViewController {
     private let viewModel: FileViewModel
     private let scrollView = UIScrollView()
@@ -38,27 +56,27 @@ final class FileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         extendedLayoutIncludesOpaqueBars = false
         edgesForExtendedLayout = []
 
         let imageView = ImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
-        imageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        imageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
 
         let titleView = TitleView()
         titleView.translatesAutoresizingMaskIntoConstraints = false
         titleView.title = viewModel.title
-        titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        titleView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        titleView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
 
 
         let attributesView = AttributesView()
         attributesView.translatesAutoresizingMaskIntoConstraints = false
         attributesView.numberOfAttributes = viewModel.numberOfAttributes
-        attributesView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        attributesView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        attributesView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        attributesView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         for (index, label) in attributesView.attributeNamesColumn.labels.enumerated() {
             let attributeViewModel = viewModel.attribute(for: index)
             label.text = attributeViewModel.attributeName
@@ -102,6 +120,11 @@ final class FileViewController: UIViewController {
         scrollView.contentSize = view.bounds.size
         stackView.frame = CGRect(origin: CGPoint.zero, size: view.bounds.size)
         stackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
     }
 }
 
@@ -150,11 +173,11 @@ final class TitleView: UIView {
         titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -1.0).isActive = true
         titleLabel.widthAnchor.constraint(equalTo: widthAnchor, constant: -20.0).isActive = true
-        titleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        titleLabel.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         titleLabel.numberOfLines = 1
         titleLabel.lineBreakMode = .byTruncatingTail
 
-        let topSeparator = SeparatorView()
+        /*let topSeparator = SeparatorView()
         topSeparator.translatesAutoresizingMaskIntoConstraints = false
         topSeparator.backgroundColor = ColorPallete.gray
         addSubview(topSeparator)
@@ -168,7 +191,7 @@ final class TitleView: UIView {
         addSubview(bottomSeparator)
         bottomSeparator.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         bottomSeparator.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bottomSeparator.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        bottomSeparator.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true*/
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -185,7 +208,7 @@ final class TitleView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 42.0)
+        return CGSize(width: UIView.noIntrinsicMetric, height: 42.0)
     }
 }
 
@@ -229,8 +252,8 @@ final class AttributesView: UIView {
             for label in attributeValuesColumn.labels {
                 label.translatesAutoresizingMaskIntoConstraints = false
                 label.textAlignment = .left
-                label.font = UIFont.systemFont(ofSize: 15.0)
-                label.textColor = UIColor.black
+                label.font = UIFont.systemFont(ofSize: 15.0, weight: .bold)
+                label.textColor = ColorPallete.gray
             }
         }
     }

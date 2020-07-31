@@ -47,7 +47,7 @@ final class FileViewModel {
             FileViewModel.makeFileSizeItem(fromAttributes: self.item.attributes),
             FileViewModel.makeCreationDateItem(fromAttributes: self.item.attributes),
             FileViewModel.makeModificationDateItem(fromAttributes: self.item.attributes)
-            ].flatMap { $0 }
+            ].compactMap { $0 }
     }
 
     func thumbnailImage(with size: CGSize) -> UIImage {
