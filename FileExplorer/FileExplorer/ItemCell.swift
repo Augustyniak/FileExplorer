@@ -62,7 +62,7 @@ final class ItemCell: UICollectionViewCell, Editable {
     
     override init(frame: CGRect) {
         containerView = UIView()
-        containerView.backgroundColor = UIColor.white
+        containerView.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         
         separatorView = SeparatorView()
         separatorView.backgroundColor = ColorPallete.gray
@@ -99,7 +99,7 @@ final class ItemCell: UICollectionViewCell, Editable {
 
         super.init(frame: frame)
 
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
 
         accessoryImageViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleAccessoryImageTap))
         accessoryImageViewTapRecognizer.delegate = self

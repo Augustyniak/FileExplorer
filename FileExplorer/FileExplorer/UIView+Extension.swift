@@ -29,18 +29,34 @@ import Foundation
 extension UIView {
     @discardableResult
     func pinToBottom(of view: UIView) -> NSLayoutConstraint {
-        let constraint = bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        constraint.isActive = true
-        leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        heightAnchor.constraint(equalToConstant: self.bounds.height).isActive = true
-        return constraint
+        if #available(iOS 11.0, *) {
+            let guide = view.safeAreaLayoutGuide
+            let constraint = bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+            constraint.isActive = true
+            leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            heightAnchor.constraint(equalToConstant: self.bounds.height).isActive = true
+            return constraint
+        } else {
+            // Fallback on earlier versions
+            let constraint = bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            constraint.isActive = true
+            leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            heightAnchor.constraint(equalToConstant: self.bounds.height).isActive = true
+            return constraint
+        }
+        
     }
 
     func edges(equalTo view: UIView, insets: UIEdgeInsets = UIEdgeInsets.zero) {
         leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets.left).isActive = true
         trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: insets.right).isActive = true
         topAnchor.constraint(equalTo: view.topAnchor, constant: insets.top).isActive = true
-        bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom).isActive = true
+        if #available(iOS 11.0, *) {
+            bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: insets.bottom).isActive = true}
+        else{
+            bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: insets.bottom).isActive = true
+        }
     }
 }

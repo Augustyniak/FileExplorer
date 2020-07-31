@@ -95,8 +95,8 @@ extension Item: Equatable {
 }
 
 extension Item: Hashable {
-    var hashValue: Int {
-        return url.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(url.hashValue)
     }
 }
 

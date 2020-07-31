@@ -24,6 +24,7 @@
 //  SOFTWARE.
 
 import Foundation
+import GoogleMobileAds
 
 protocol DirectoryContentViewControllerDelegate: class {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool)
@@ -57,6 +58,7 @@ final class DirectoryContentViewController: UICollectionViewController {
 
         super.init(collectionViewLayout: layout)
         viewModel.delegate = self
+        navigationItem.title = ""
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,7 +85,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         extendedLayoutIncludesOpaqueBars = false
         edgesForExtendedLayout = []
 
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         collectionView.registerCell(ofClass: ItemCell.self)
         collectionView.registerHeader(ofClass: CollectionViewHeader.self)
         collectionView.registerFooter(ofClass: CollectionViewFooter.self)
@@ -95,8 +97,15 @@ final class DirectoryContentViewController: UICollectionViewController {
         self.toolbarBottomConstraint?.constant = toolbar.bounds.height
         
         syncWithViewModel(false)
+        
+        interstitial = createAndLoadInterstitial()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
+    
     func syncWithViewModel(_ animated: Bool) {
         if let items = toolbar.items {
             for barButtonItem in items {
@@ -169,11 +178,40 @@ final class DirectoryContentViewController: UICollectionViewController {
             strongSelf.viewModel.isEditing = false
             strongSelf.delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
         }
+        callAds()
     }
 
     @objc func handleEditButtonTap() {
         viewModel.isEditing = !viewModel.isEditing
         delegate?.directoryContentViewController(self, didChangeEditingStatus: viewModel.isEditing)
+    }
+    
+    var interstitial: GADInterstitial!
+    func callAds(){
+        if interstitial != nil {
+            if interstitial.isReady {
+                interstitial.present(fromRootViewController: self)
+            } else {
+              print("Ad wasn't ready")
+            }
+        }
+    }
+}
+
+extension DirectoryContentViewController: GADInterstitialDelegate{
+    public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        //self.interstitial.present(fromRootViewController: self)
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: )
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+
+    public func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+        //navigationController?.popViewController(animated: true)
     }
 }
 

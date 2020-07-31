@@ -191,7 +191,7 @@ final class DirectoryContentViewModel {
     func deselect(at indexPath: IndexPath) {
         let item = self.item(for: indexPath)
         if isEditing {
-            if let index = selectedItems.index(where: { $0 == item }) {
+            if let index = selectedItems.firstIndex(where: { $0 == item }) {
                 selectedItems.remove(at: index)
             }
         } else {

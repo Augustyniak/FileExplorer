@@ -101,7 +101,7 @@ public final class FileExplorerViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         
         let navigationController = UINavigationController()
         addContentChildViewController(navigationController)
@@ -126,6 +126,16 @@ public final class FileExplorerViewController: UIViewController {
         } else {
             precondition(false, "Passed URL is incorrect.")
         }
+        navigationItem.title = ""
+    }
+    
+    override public var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationItem.title = ""
     }
     
     override public func viewDidDisappear(_ animated: Bool) {

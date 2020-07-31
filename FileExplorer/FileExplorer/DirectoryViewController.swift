@@ -107,6 +107,11 @@ final class DirectoryViewController: UIViewController {
         view.sendSubviewToBack(directoryContentViewController.view)
         setUpLeftBarButtonItem()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
 
     func setUpSearchBarController() {
         let searchBar = searchController.searchBar
@@ -131,7 +136,6 @@ final class DirectoryViewController: UIViewController {
             searchController.isActive = newValue
         }
     }
-    
     // MARK: Actions
 
     @objc func handleFinishButtonTap() {
@@ -149,9 +153,11 @@ extension DirectoryViewController: UISearchBarDelegate {
 extension DirectoryViewController: DirectoryContentViewControllerDelegate {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
         searchController.searchBar.isEnabled = !isEditing
+        navigationItem.title = ""
     }
 
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItem item: Item<Any>) {
+        
         delegate?.directoryViewController(self, didSelectItem: item)
     }
 
