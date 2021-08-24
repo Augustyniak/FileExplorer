@@ -24,8 +24,7 @@
 //  SOFTWARE.
 
 import Foundation
-
-protocol DirectoryContentViewControllerDelegate: class {
+protocol DirectoryContentViewControllerDelegate: AnyObject {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItem item: Item<Any>)
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItemDetails item: Item<Any>)
@@ -47,6 +46,13 @@ final class DirectoryContentViewController: UICollectionViewController {
         }
     }
 
+    //SWIPE
+    var defaultOptions = SwipeOptions()
+    var isSwipeRightEnabled = true
+    var buttonDisplayMode: ButtonDisplayMode = .titleAndImage
+    var buttonStyle: ButtonStyle = .backgroundColor
+    var usesTallCells = false
+    //SWIPE
     init(viewModel: DirectoryContentViewModel) {
         self.viewModel = viewModel
         self.toolbar = UIToolbar.makeToolbar()
@@ -57,6 +63,7 @@ final class DirectoryContentViewController: UICollectionViewController {
 
         super.init(collectionViewLayout: layout)
         viewModel.delegate = self
+        navigationItem.title = ""
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,7 +90,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         extendedLayoutIncludesOpaqueBars = false
         edgesForExtendedLayout = []
 
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         collectionView.registerCell(ofClass: ItemCell.self)
         collectionView.registerHeader(ofClass: CollectionViewHeader.self)
         collectionView.registerFooter(ofClass: CollectionViewFooter.self)
@@ -94,9 +101,16 @@ final class DirectoryContentViewController: UICollectionViewController {
         self.toolbarBottomConstraint = toolbar.pinToBottom(of: view)
         self.toolbarBottomConstraint?.constant = toolbar.bounds.height
         
+        self.toolbar.isHidden = true
+        
         syncWithViewModel(false)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
+    
     func syncWithViewModel(_ animated: Bool) {
         if let items = toolbar.items {
             for barButtonItem in items {
@@ -127,6 +141,7 @@ final class DirectoryContentViewController: UICollectionViewController {
 
         collectionView.setEditing(editing, animated: animated)
         UIView.animate(withDuration: 0.2) {
+            self.toolbar.isHidden.toggle()
             self.toolbarBottomConstraint?.constant = editing ? 0.0 : self.toolbar.bounds.height
             collectionView.contentInset.bottom = editing ? self.toolbar.bounds.height : 0.0
             collectionView.scrollIndicatorInsets = collectionView.contentInset
@@ -145,18 +160,18 @@ final class DirectoryContentViewController: UICollectionViewController {
             selectActionButton,
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             deleteActionButton
-            ].flatMap { $0 }
+            ].compactMap { $0 }
     }
 
     // MARK: Actions
 
-    func handleSelectButtonTap() {
+    @objc func handleSelectButtonTap() {
         viewModel.chooseItems { selectedItems in
             delegate?.directoryContentViewController(self, didChooseItems: selectedItems)
         }
     }
 
-    func handleDeleteButtonTap() {
+    @objc func handleDeleteButtonTap() {
         showLoadingIndicator()
         viewModel.deleteItems(at: viewModel.indexPathsOfSelectedCells) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -171,7 +186,7 @@ final class DirectoryContentViewController: UICollectionViewController {
         }
     }
 
-    func handleEditButtonTap() {
+    @objc func handleEditButtonTap() {
         viewModel.isEditing = !viewModel.isEditing
         delegate?.directoryContentViewController(self, didChangeEditingStatus: viewModel.isEditing)
     }
@@ -214,11 +229,12 @@ extension DirectoryContentViewController {
         cell.subtitle = itemViewModel.subtitle
         cell.accessoryType = itemViewModel.accessoryType
         cell.iconImage = itemViewModel.thumbnailImage(with: cell.maximumIconSize)
+        cell.delegate = self
         return cell
     }
 
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableHeader(ofClass: CollectionViewHeader.self, for: indexPath) as CollectionViewHeader
             header.sortModeChangeAction = viewModel.sortModeChangeAction
             header.sortMode = viewModel.sortMode
@@ -226,7 +242,7 @@ extension DirectoryContentViewController {
                 header.layoutIfNeeded()
             }
             return header
-        } else if kind == UICollectionElementKindSectionFooter {
+        } else if kind == UICollectionView.elementKindSectionFooter {
             return collectionView.dequeueReusableFooter(ofClass: CollectionViewFooter.self, for: indexPath) as CollectionViewFooter
         } else {
             fatalError()
@@ -250,5 +266,78 @@ extension DirectoryContentViewController {
 extension DirectoryContentViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         viewModel.searchQuery = searchController.searchBar.text
+    }
+}
+
+extension DirectoryContentViewController: SwipeCollectionViewCellDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+
+        let flag = SwipeAction(style: .default, title: nil, handler: nil)
+        flag.hidesWhenSelected = true
+        configure(action: flag, with: .flag)
+        
+        let delete = SwipeAction(style: .destructive, title: nil) { [self] action, indexPath in
+            viewModel.deleteItems(at: [indexPath]) { [weak self] result in
+                guard let strongSelf = self else { return }
+                delegate?.directoryContentViewController(strongSelf, didChangeEditingStatus: strongSelf.viewModel.isEditing)
+            }
+        }
+        configure(action: delete, with: .trash)
+        
+        return [delete]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = orientation == .left ? .selection : .destructive
+        options.transitionStyle = defaultOptions.transitionStyle
+        
+        switch buttonStyle {
+        case .backgroundColor:
+            options.buttonSpacing = 11
+        case .circular:
+            options.buttonSpacing = 4
+        #if canImport(Combine)
+            if #available(iOS 13.0, *) {
+                options.backgroundColor = UIColor.systemGray6
+            } else {
+                options.backgroundColor = #colorLiteral(red: 0.9467939734, green: 0.9468161464, blue: 0.9468042254, alpha: 1)
+            }
+        #else
+            options.backgroundColor = #colorLiteral(red: 0.9467939734, green: 0.9468161464, blue: 0.9468042254, alpha: 1)
+        #endif
+        }
+        
+        return options
+    }
+    
+    func visibleRect(for collectionView: UICollectionView) -> CGRect? {
+        if usesTallCells == false { return nil }
+        
+        if #available(iOS 11.0, *) {
+            return collectionView.safeAreaLayoutGuide.layoutFrame
+        } else {
+            let topInset = navigationController?.navigationBar.frame.height ?? 0
+            let bottomInset = navigationController?.toolbar?.frame.height ?? 0
+            let bounds = collectionView.bounds
+            
+            return CGRect(x: bounds.origin.x, y: bounds.origin.y + topInset, width: bounds.width, height: bounds.height - bottomInset)
+        }
+    }
+    
+    func configure(action: SwipeAction, with descriptor: ActionDescriptor) {
+        action.title = descriptor.title(forDisplayMode: buttonDisplayMode)
+        action.image = descriptor.image(forStyle: buttonStyle, displayMode: buttonDisplayMode)
+        
+        switch buttonStyle {
+        case .backgroundColor:
+            action.backgroundColor = descriptor.color(forStyle: buttonStyle)
+        case .circular:
+            action.backgroundColor = .clear
+            action.textColor = descriptor.color(forStyle: buttonStyle)
+            action.font = .systemFont(ofSize: 13)
+            action.transitionDelegate = ScaleTransition.default
+        }
     }
 }

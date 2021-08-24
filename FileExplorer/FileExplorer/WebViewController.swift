@@ -25,10 +25,11 @@
 
 import Foundation
 import WebKit
+import GoogleMobileAds
 
-final class WebViewController: UIViewController {
+class WebViewController: UIViewController, WKNavigationDelegate {
     let url: URL
-
+    var interstitial: GADInterstitial!
     init(url: URL) {
         self.url = url
         super.init(nibName: nil, bundle: nil)
@@ -46,5 +47,46 @@ final class WebViewController: UIViewController {
         view.addSubview(webView)
         webView.edges(equalTo: view)
         webView.loadFileURL(url, allowingReadAccessTo: url)
+        webView.navigationDelegate = self
+        //interstitial = createAndLoadInterstitial()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        //callAds()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+    
+    }
+    
+    
+    func callAds(){
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        } else {
+          print("Ad wasn't ready")
+        }
+    }
+}
+
+extension WebViewController: GADInterstitialDelegate{
+    public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        //self.interstitial.present(fromRootViewController: self)
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: )
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+
+    public func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+        //navigationController?.popViewController(animated: true)
     }
 }

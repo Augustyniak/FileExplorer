@@ -41,7 +41,7 @@ final class UknownFileTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)//UIColor.white
         setUpImageView()
         setUpTextLabel()
     }

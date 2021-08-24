@@ -104,8 +104,13 @@ final class DirectoryViewController: UIViewController {
         addContentChildViewController(directoryContentViewController, insets: UIEdgeInsets(top: searchController.searchBar.bounds.height, left: 0.0, bottom: 0.0, right: 0.0))
         navigationItem.rightBarButtonItem = directoryContentViewController.navigationItem.rightBarButtonItem
         navigationItem.title = directoryContentViewController.navigationItem.title
-        view.sendSubview(toBack: directoryContentViewController.view)
+        view.sendSubviewToBack(directoryContentViewController.view)
         setUpLeftBarButtonItem()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
     }
 
     func setUpSearchBarController() {
@@ -131,10 +136,9 @@ final class DirectoryViewController: UIViewController {
             searchController.isActive = newValue
         }
     }
-    
     // MARK: Actions
 
-    func handleFinishButtonTap() {
+    @objc func handleFinishButtonTap() {
         delegate?.directoryViewControllerDidFinish(self)
     }
 }
@@ -149,9 +153,11 @@ extension DirectoryViewController: UISearchBarDelegate {
 extension DirectoryViewController: DirectoryContentViewControllerDelegate {
     func directoryContentViewController(_ controller: DirectoryContentViewController, didChangeEditingStatus isEditing: Bool) {
         searchController.searchBar.isEnabled = !isEditing
+        navigationItem.title = ""
     }
 
     func directoryContentViewController(_ controller: DirectoryContentViewController, didSelectItem item: Item<Any>) {
+        
         delegate?.directoryViewController(self, didSelectItem: item)
     }
 

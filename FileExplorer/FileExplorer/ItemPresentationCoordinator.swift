@@ -46,6 +46,7 @@ final class ItemPresentationCoordinator {
     
     func start(item: Item<Any>, fileSpecifications: FileSpecifications, configuration: Configuration, animated: Bool) {
         guard let navigationController = self.navigationController else { return }
+        navigationController.title = ""
         self.configuration = configuration
         self.fileSpecifications = fileSpecifications
 

@@ -24,6 +24,7 @@
 //  SOFTWARE.
 
 import UIKit
+import GoogleMobileAds
 
 protocol ActionsViewControllerDelegate: class {
     func actionsViewControllerDidRequestRemoval(_ controller: ActionsViewController)
@@ -33,7 +34,7 @@ protocol ActionsViewControllerDelegate: class {
 final class ActionsViewController: UIViewController {
     weak var delegate: ActionsViewControllerDelegate?
 
-    private let toolbar = UIToolbar()
+    let toolbar = UIToolbar()
     private let contentViewController: UIViewController
 
     init(contentViewController: UIViewController) {
@@ -48,7 +49,7 @@ final class ActionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)//UIColor.white
 
         extendedLayoutIncludesOpaqueBars = false
         edgesForExtendedLayout = []
@@ -63,10 +64,23 @@ final class ActionsViewController: UIViewController {
             UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(handleTrashButtonTap))
         ]
 
-        addContentChildViewController(contentViewController, insets: UIEdgeInsets(top: 0, left: 0, bottom: toolbar.bounds.height, right: 0))
+        addContentChildViewController(contentViewController, insets: UIEdgeInsets(top: 0, left: 0, bottom: toolbar.bounds.height+30, right: 0))
         navigationItem.title = contentViewController.navigationItem.title
+        contentViewController.view.bottomAnchor.constraint(equalTo: toolbar.topAnchor, constant: 0).isActive = true
+        interstitial = createAndLoadInterstitial()
     }
 
+    var interstitial: GADInterstitial!
+    func callAds(){
+        if interstitial != nil {
+            if interstitial.isReady {
+                interstitial.present(fromRootViewController: self)
+            } else {
+              print("Ad wasn't ready")
+            }
+        }
+    }
+    
     // MARK: Actions
     
     @objc
@@ -76,6 +90,25 @@ final class ActionsViewController: UIViewController {
 
     @objc
     private func handleTrashButtonTap() {
+        callAds()
         delegate?.actionsViewControllerDidRequestRemoval(self)
+    }
+}
+
+
+extension ActionsViewController: GADInterstitialDelegate{
+    public func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        //self.interstitial.present(fromRootViewController: self)
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: )
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+
+    public func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+        //navigationController?.popViewController(animated: true)
     }
 }

@@ -35,7 +35,7 @@ protocol FileService: class {
 
 enum FileServiceError: Error {
     case removalFailure(removedItems: [Item<Any>], itemsNotRemovedDueToFailure: [Item<Any>])
-    case loadingFailure()
+    case loadingFailure
 }
 
 extension Notification.Name {
@@ -54,7 +54,7 @@ final class LocalStorageFileService: FileService {
     func load(item: Item<Any>, completionBlock: @escaping (Result<LoadedItem<Any>>) -> ()) {
         DispatchQueue.global(qos: .default).async {
             let result = Result<LoadedItem<Any>>() { [weak self] in
-                guard let strongSelf = self else { throw FileServiceError.loadingFailure() }
+                guard let strongSelf = self else { throw FileServiceError.loadingFailure }
                 
                 let attributes = try strongSelf.fileManager.attributesOfItem(atPath: item.url.path)
                 let result: Any
@@ -103,7 +103,7 @@ final class LocalStorageFileService: FileService {
                                     deletedItems,
                                     itemsNotRemovedDueToFailure)
                 } else {
-                    completionBlock(.success(), deletedItems, itemsNotRemovedDueToFailure)
+                    completionBlock(.success(()), deletedItems, itemsNotRemovedDueToFailure)
                 }
 
             }
