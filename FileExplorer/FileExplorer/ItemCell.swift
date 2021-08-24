@@ -25,12 +25,24 @@
 
 import UIKit
 
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    convenience init(hex:Int) {
+        self.init(red:(hex >> 16) & 0xff, green:(hex >> 8) & 0xff, blue:hex & 0xff)
+    }
+}
 protocol Editable {
     func setEditing(_ editing: Bool, animated: Bool)
 }
 
 enum ColorPallete {
-    static let gray = UIColor(red: 200/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1.0)
+    static let gray = UIColor(red: 200/255.0, green: 199/255.0, blue: 204/255.0, alpha: 0.5)
     static let blue = UIColor(red: 21/255.0, green: 126/255.0, blue: 251/255, alpha: 1.0)
 }
 
@@ -39,14 +51,13 @@ enum LayoutConstants {
     static let iconWidth: CGFloat = 44.0
 }
 
-final class ItemCell: UICollectionViewCell, Editable {
+final class ItemCell: SwipeCollectionViewCell, Editable {
     enum AccessoryType {
         case detailButton
         case disclosureIndicator
     }
 
     private var accessoryImageViewTapRecognizer: UITapGestureRecognizer
-    private let containerView: UIView
     private let separatorView: SeparatorView
     private let iconImageView: UIImageView
     private let titleTextLabel: UILabel
@@ -61,16 +72,13 @@ final class ItemCell: UICollectionViewCell, Editable {
     var tapAction: () -> Void = {}
     
     override init(frame: CGRect) {
-        containerView = UIView()
-        containerView.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
         
         separatorView = SeparatorView()
         separatorView.backgroundColor = ColorPallete.gray
-        containerView.addSubview(separatorView)
+        
 
         iconImageView = UIImageView()
         iconImageView.contentMode = .scaleAspectFit
-        containerView.addSubview(iconImageView)
         iconImageView.layer.borderWidth = 0
         //iconImageView.layer.borderColor = UIColor(red:248/255, green:45/255, blue:85/255, alpha:1.00).cgColor
         
@@ -78,27 +86,36 @@ final class ItemCell: UICollectionViewCell, Editable {
         titleTextLabel.numberOfLines = 1
         titleTextLabel.lineBreakMode = .byTruncatingMiddle
         titleTextLabel.font = UIFont.systemFont(ofSize: 17)
-        containerView.addSubview(titleTextLabel)
+        
         
         subtitleTextLabel = UILabel()
         subtitleTextLabel.numberOfLines = 1
         subtitleTextLabel.lineBreakMode = .byTruncatingMiddle
         subtitleTextLabel.font = UIFont.systemFont(ofSize: 12)
         subtitleTextLabel.textColor = UIColor.gray
-        containerView.addSubview(subtitleTextLabel)
+        
         
         accessoryImageView = UILabel()
-        accessoryImageView.font = UIFont.systemFont(ofSize: 28)
+        accessoryImageView.font = UIFont.systemFont(ofSize: 18)
         accessoryImageView.textColor = UIColor(red:248/255, green:45/255, blue:85/255, alpha:1.00)
         //accessoryImageView.contentMode = .center
-        containerView.addSubview(accessoryImageView)
+        
 
         checkmarkButton = CheckmarkButton()
 
         accessoryImageViewTapRecognizer = UITapGestureRecognizer(target: nil, action: nil)
 
         super.init(frame: frame)
-
+        
+        containerView.addSubview(separatorView)
+        containerView.addSubview(iconImageView)
+        containerView.addSubview(titleTextLabel)
+        containerView.addSubview(subtitleTextLabel)
+        containerView.addSubview(accessoryImageView)
+        
+        containerView.backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
+        
+        
         backgroundColor = UIColor.dynamicColor(light: .white, dark: .black)
 
         accessoryImageViewTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleAccessoryImageTap))
@@ -124,6 +141,8 @@ final class ItemCell: UICollectionViewCell, Editable {
         setupTitleLabelContstraints()
         setupSubtitleLabelConstraints()
         setupCheckmarkButtonConstraints()
+        
+        configure()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -250,9 +269,11 @@ final class ItemCell: UICollectionViewCell, Editable {
                 //accessoryImageView.image = UIImage.make(for: "DetailButtonImage")
                 accessoryImageView.text = "ⓘ"
                 accessoryImageViewTapRecognizer.isEnabled = true
+                //accessoryImageView.textColor = UIColor(hex: 0x0075ff)
             case .disclosureIndicator:
                 //accessoryImageView.image = UIImage.make(for: "DisclosureButtonImage")
                 accessoryImageView.text = "〉"
+                //accessoryImageView.textColor = UIColor(hex: 0x0075ff)
                 accessoryImageViewTapRecognizer.isEnabled = false
             }
             setNeedsLayout()
@@ -264,7 +285,7 @@ final class ItemCell: UICollectionViewCell, Editable {
         return CGSize(width: max, height: max)
     }
 
-    // MARK: Actions 
+    // MARK: Actions
 
     @objc func handleAccessoryImageTap() {
         tapAction()
@@ -343,7 +364,7 @@ final class CollectionViewFooter: UICollectionReusableView {
     }
     
     override func layoutSubviews() {
-        super.layoutSubviews()        
+        super.layoutSubviews()
         for (i, separator) in separators.enumerated() {
             let size = CGSize(width: bounds.width - leftInset, height: 1.0)
             separator.frame.size = separator.sizeThatFits(size)
